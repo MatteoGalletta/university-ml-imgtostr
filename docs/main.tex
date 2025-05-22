@@ -1,11 +1,37 @@
 \documentclass[12pt,a4paper,openany,oneside]{book}
 
+\usepackage{framed}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{courier}
+\lstset{
+    language=C++,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    tabsize=5,
+    extendedchars=true,
+    breaklines=true,
+    keywordstyle=\textbf,
+    stringstyle=\color{white}\ttfamily,
+    showspaces=false,
+    showtabs=false,
+    xleftmargin=17pt,
+    framexleftmargin=17pt,
+    framexrightmargin=5pt,
+    framexbottommargin=4pt,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)}
+}
+\addto\captionsenglish{ \renewcommand{\lstlistingname}{Algorithm}}
 
 \title{Progetto di Machine Learning}
 \author{Matteo Galletta, Marco Gionfriddo, Kevin Speranza}
@@ -15,7 +41,8 @@
 \begin{titlepage}
     \centering
     \vspace*{3cm}
-    {\Huge \textbf{Progetto di Machine Learning}}\\[1.5cm]
+    {\Huge \textbf{Screenshot to Text}}\\[1.5cm]
+    {\Large Progetto di Machine Learning}
     {\Large Anno Accademico 2024-2025}
     \vfill
     \normalsize{\textit{Matteo Galletta, Marco Gionfriddo, Kevin Speranza}}
@@ -24,7 +51,8 @@
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
-\include{parts/problema}
+\include{parts/1_problema}
+\include{parts/2_soluzione}
 \include{parts/dataset}
 \include{parts/metodi}
 \include{parts/valutazione}
