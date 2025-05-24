@@ -12,12 +12,15 @@ Per la prima fase vengono utilizzati algoritmi di image processing per suddivide
 
 \section{Fase 1: Suddivisione in caratteri}
 
-Come prima cosa, prima di iniziare a suddividere in caratteri l'immagine, vengono effettuate alcune operazioni di pre-processing. In particolare, viene effettuata una normalizzazione dei colori seguita da una binarizzazione dell'immagine.
-
-A questo punto, l'immagine ottenuta è composta da pixel bianchi o neri. Tramite \textcolor{red}{alcune euristiche}, si individua se l'immagine presenta caratteri bianchi su sfondo nero, o viceversa. Essendo la rete allenata su immagini a testo bianco e sfondo nero, l'euristica permette di invertire i colori dell'immagine, se necessario.
+Prima di procedere alla suddivisione dell'immagine in singoli caratteri, vengono eseguite alcune operazioni di pre-processing fondamentali. \\ \\ Innanzitutto, l'immagine viene convertita in scala di grigi, così da ridurre la complessità dell'elaborazione e operare su un unico canale di intensità luminosa. Successivamente, l'immagine in scala di grigi viene normalizzata nell'intervallo 0-255, con l'obiettivo di aumentare il contrasto tra le aree chiare e scure, migliorando così la visibilità dei dettagli. \\ \\ Nel passaggio successivo viene calcolata l’intensità media dei pixel, utile per stimare la luminosità complessiva dell’immagine. Se tale valore supera una soglia prefissata, si assume che l’immagine abbia uno sfondo chiaro; in tal caso, viene applicata un’inversione dei colori, trasformando i pixel chiari in scuri e viceversa, per facilitare l’analisi visiva. \\ \\ Infine, l'immagine può essere convertita in formato binario: attraverso una sogliatura, i pixel vengono trasformati in nero (0) o bianco (255). Questo rende l’immagine più adatta per successive operazioni di segmentazione o riconoscimento dei caratteri. Questa procedura è particolarmente utile perché la rete neurale utilizzata è stata addestrata su immagini con testo bianco su sfondo nero; l’euristica basata sull’intensità media permette quindi di invertire automaticamente i colori, se necessario, per uniformare l’input al formato atteso dalla rete.
 \newline
 
-\textcolor{red}{immagini?}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.3\textwidth]{images/giraffa-bin.png}
+	\caption{Immagine dopo il Preprocessing.}
+	\label{fig:giraffabin}
+\end{figure}
 
 Il primo approccio utilizzato per la suddivisione in caratteri è stato quello di considerare le proiezioni verticali dell'immagine. Come prima cosa si individuano le colonne in cui è presente almeno un pixel bianco.
 L'euristica quindi considera due colonne consecutive come appartenenti allo stesso carattere se presentano entrambe almeno un pixel bianco. Nonostante questo approccio possa sembrare ragionevole, gli esperimenti effettuati mostrano non essere efficace per immagini a bassa risoluzione. Infatti, in questo caso, i caratteri tendono a sovrapporsi e le colonne consecutive presentano pixel bianchi in comune. Per questo motivo, si è deciso di utilizzare un approccio alternativo.
