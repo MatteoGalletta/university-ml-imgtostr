@@ -1,2 +1,4 @@
 gradio
 pillow 
+opencv-python
+matplotlib

@@ -1,11 +1,14 @@
 import gradio as gr
+import numpy as np
+from preprocessing import ImageToStringPreprocessing
 
-def placeholder(image, testo):
-    testo_output = "⏳ Attendi integrazione modello OCR..."
-    return image, testo_output
+def binary(image_pil):
+    image_np = np.array(image_pil)  # PIL → NumPy
+    preprocessing = ImageToStringPreprocessing(image_np)
+    return preprocessing.image_binary
 
 def clear_inputs():
-    return None, "", "📭 Testo cancellato o in attesa di input."
+    return None, ""
 
 custom_css = """
 #fixed-height-image {
@@ -13,13 +16,12 @@ custom_css = """
 }
 """
 
-with gr.Blocks(css = custom_css) as demo:
+with gr.Blocks(css=custom_css) as demo:
 
     # Seconda riga: descrizione algoritmo
     with gr.Row():
         with gr.Column(scale=1):
             gr.Image(label="Steps", interactive=False, type="filepath", elem_id="fixed-height-image")
-
 
     with gr.Row():
         # Colonna sinistra: input immagine + pulsanti
@@ -33,11 +35,10 @@ with gr.Blocks(css = custom_css) as demo:
         # Colonna destra: immagine pre-processata sopra il risultato
         with gr.Column(scale=1):
             gr.Markdown("# Output")
-            output_img = gr.Image(label="Immagine pre-processata")
-
+            output_img = gr.Image(label="Immagine binarizzata")
             testo_output = gr.Markdown(value="📭 In attesa di input...")
 
-    # TODO: tensorspace
+    # Tensorspace viewer
     with gr.Row():
         gr.HTML(
             """
@@ -47,7 +48,8 @@ with gr.Blocks(css = custom_css) as demo:
             """
         )
 
-    btn_submit.click(fn=placeholder, inputs=[img_input, testo_output], outputs=[output_img, testo_output])
+    # Collega i bottoni alle funzioni
+    btn_submit.click(fn=binary, inputs=[img_input], outputs=[output_img, testo_output])
     btn_cancel.click(fn=clear_inputs, inputs=None, outputs=[img_input, testo_output])
 
 if __name__ == "__main__":
