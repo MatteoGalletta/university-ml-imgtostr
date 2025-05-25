@@ -12,20 +12,15 @@ class ImageToStringClassifier:
 
         self.net = ImageToStringNet()
 
-        # test 
-        state_dict = torch.load(self.__MODEL_PATH, map_location=torch.device('cpu'))
+        device = torch.device('xpu' if torch.xpu.is_available() else 'cpu')
+
+        state_dict = torch.load(self.__MODEL_PATH, map_location=device)
         self.net.load_state_dict(state_dict)
         self.net.eval()
 
-        # originale
-        #self.net.load_state_dict(torch.load(self.__MODEL_PATH, weights_only=True))
-        #self.net.eval()
-
-        #image_bgr = cv2.imread(image_path)
         image_rgb = cv2.cvtColor(image_uploaded, cv2.COLOR_BGR2RGB)
 
         self.preprocessor = ImageToStringPreprocessing(image_rgb)
-        # self.postprocessor = ImageToStringPostprocessing()
 
     def _classify(self):
 
