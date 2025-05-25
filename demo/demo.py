@@ -3,7 +3,6 @@ import numpy as np
 import sys
 
 sys.path.append('../core')
-from ImageToStringPreprocessing import ImageToStringPreprocessing
 from ImageToStringClassifier import ImageToStringClassifier
 
 def processing(image_pil):

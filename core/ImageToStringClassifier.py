@@ -18,9 +18,9 @@ class ImageToStringClassifier:
         self.net.load_state_dict(state_dict)
         self.net.eval()
 
-        image_rgb = cv2.cvtColor(image_uploaded, cv2.COLOR_BGR2RGB)
+        #image_rgb = cv2.cvtColor(image_uploaded, cv2.COLOR_BGR2RGB)
 
-        self.preprocessor = ImageToStringPreprocessing(image_rgb)
+        self.preprocessor = ImageToStringPreprocessing(image_uploaded)
 
     def _classify(self):
 
