@@ -4,15 +4,18 @@ import sys
 
 sys.path.append('../core')
 from ImageToStringPreprocessing import ImageToStringPreprocessing
+from ImageToStringClassifier import ImageToStringClassifier
 
-def binary(image_pil):
+def processing(image_pil):
     image_np = np.array(image_pil)  # PIL → NumPy
     preprocessing = ImageToStringPreprocessing(image_np)
     bboxed_image = preprocessing.get_bboxed_image()
-    return bboxed_image
+    classifier = ImageToStringClassifier(image_np)
+    string_output = classifier.get_string()
+    return bboxed_image, string_output
 
 def clear_inputs():
-    return None
+    return None, None, ""
 
 custom_css = """
 #fixed-height-image {
@@ -31,7 +34,7 @@ with gr.Blocks(css=custom_css) as demo:
         # Colonna sinistra: input immagine + pulsanti
         with gr.Column(scale=1):
             gr.Markdown("# Carica screenshot")
-            img_input = gr.Image(label="Carica lo screenshot", sources="upload", type="pil")
+            img_input = gr.Image(label="Screenshot caricato", sources="upload", type="pil")
             with gr.Row():
                 btn_submit = gr.Button("Submit")
                 btn_cancel = gr.Button("Cancel")
@@ -39,7 +42,12 @@ with gr.Blocks(css=custom_css) as demo:
         # Colonna destra: immagine pre-processata sopra il risultato
         with gr.Column(scale=1):
             gr.Markdown("# Output")
-            output_img = gr.Image(label="Immagine binarizzata")
+            output_img = gr.Image(label="Immagine preprocessata")
+
+        with gr.Column(scale=1):
+            gr.Markdown("# Risultato")
+            output_text = gr.Textbox(label="Output algoritmo", interactive=False)
+
 
     # Tensorspace viewer
     with gr.Row():
@@ -52,8 +60,8 @@ with gr.Blocks(css=custom_css) as demo:
         )
 
     # Collega i bottoni alle funzioni
-    btn_submit.click(fn=binary, inputs=[img_input], outputs=[output_img])
-    btn_cancel.click(fn=clear_inputs, inputs=None, outputs=[img_input])
+    btn_submit.click(fn=processing, inputs=[img_input], outputs=[output_img, output_text])
+    btn_cancel.click(fn=clear_inputs, inputs=None, outputs=[img_input, output_img, output_text])
 
 if __name__ == "__main__":
     demo.launch()

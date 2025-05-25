@@ -2,3 +2,4 @@ gradio
 pillow 
 opencv-python
 matplotlib
+torch
