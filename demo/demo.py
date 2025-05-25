@@ -8,9 +8,8 @@ from ImageToStringClassifier import ImageToStringClassifier
 
 def processing(image_pil):
     image_np = np.array(image_pil)  # PIL → NumPy
-    preprocessing = ImageToStringPreprocessing(image_np)
-    bboxed_image = preprocessing.get_bboxed_image()
     classifier = ImageToStringClassifier(image_np)
+    bboxed_image = classifier.preprocessor.get_bboxed_image()
     string_output = classifier.get_string()
     return bboxed_image, string_output
 
