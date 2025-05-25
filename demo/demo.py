@@ -1,14 +1,18 @@
 import gradio as gr
 import numpy as np
-from preprocessing import ImageToStringPreprocessing
+import sys
+
+sys.path.append('../core')
+from ImageToStringPreprocessing import ImageToStringPreprocessing
 
 def binary(image_pil):
     image_np = np.array(image_pil)  # PIL → NumPy
     preprocessing = ImageToStringPreprocessing(image_np)
-    return preprocessing.image_binary
+    bboxed_image = preprocessing.get_bboxed_image()
+    return bboxed_image
 
 def clear_inputs():
-    return None, ""
+    return None
 
 custom_css = """
 #fixed-height-image {
@@ -36,7 +40,6 @@ with gr.Blocks(css=custom_css) as demo:
         with gr.Column(scale=1):
             gr.Markdown("# Output")
             output_img = gr.Image(label="Immagine binarizzata")
-            testo_output = gr.Markdown(value="📭 In attesa di input...")
 
     # Tensorspace viewer
     with gr.Row():
@@ -49,8 +52,8 @@ with gr.Blocks(css=custom_css) as demo:
         )
 
     # Collega i bottoni alle funzioni
-    btn_submit.click(fn=binary, inputs=[img_input], outputs=[output_img, testo_output])
-    btn_cancel.click(fn=clear_inputs, inputs=None, outputs=[img_input, testo_output])
+    btn_submit.click(fn=binary, inputs=[img_input], outputs=[output_img])
+    btn_cancel.click(fn=clear_inputs, inputs=None, outputs=[img_input])
 
 if __name__ == "__main__":
     demo.launch()
