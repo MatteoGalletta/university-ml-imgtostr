@@ -6,6 +6,9 @@ sys.path.append('../core')
 from ImageToStringClassifier import ImageToStringClassifier
 
 def processing(image_pil):
+    if image_pil is None:
+        return None, ""
+    
     image_np = np.array(image_pil)  # PIL → NumPy
     classifier = ImageToStringClassifier(image_np)
     bboxed_image = classifier.preprocessor.get_bboxed_image()
@@ -16,8 +19,12 @@ def clear_inputs():
     return None, None, ""
 
 custom_css = """
-#fixed-height-image {
-    height: 300px;
+
+#image img{
+  padding: 30px;
+  background-color: #27272a;
+  box-sizing: border-box;
+  display:block;
 }
 """
 
@@ -26,13 +33,13 @@ with gr.Blocks(css=custom_css) as demo:
     # Seconda riga: descrizione algoritmo
     with gr.Row():
         with gr.Column(scale=1):
-            gr.Image(label="Steps", interactive=False, type="filepath", elem_id="fixed-height-image")
+            gr.Image(label="Steps", interactive=False, type="filepath")
 
     with gr.Row():
         # Colonna sinistra: input immagine + pulsanti
         with gr.Column(scale=1):
             gr.Markdown("# Carica screenshot")
-            img_input = gr.Image(label="Screenshot caricato", sources="upload", type="pil")
+            img_input = gr.Image(label="Screenshot caricato", sources="upload", type="pil",  elem_id="image")
             with gr.Row():
                 btn_submit = gr.Button("Submit")
                 btn_cancel = gr.Button("Cancel")
@@ -40,7 +47,7 @@ with gr.Blocks(css=custom_css) as demo:
         # Colonna destra: immagine pre-processata sopra il risultato
         with gr.Column(scale=1):
             gr.Markdown("# Output")
-            output_img = gr.Image(label="Immagine preprocessata")
+            output_img = gr.Image(label="Immagine preprocessata", elem_id="image")
 
         with gr.Column(scale=1):
             gr.Markdown("# Risultato")
