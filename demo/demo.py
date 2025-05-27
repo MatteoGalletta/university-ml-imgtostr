@@ -39,7 +39,7 @@ with gr.Blocks(css=custom_css) as demo:
         # Colonna sinistra: input immagine + pulsanti
         with gr.Column(scale=1):
             gr.Markdown("# Carica screenshot")
-            img_input = gr.Image(label="Screenshot caricato", sources="upload", type="pil",  elem_id="image")
+            img_input = gr.Image(label="Screenshot caricato", sources=["upload", "clipboard"], type="pil",  elem_id="image")
             with gr.Row():
                 btn_submit = gr.Button("Submit")
                 btn_cancel = gr.Button("Cancel")
