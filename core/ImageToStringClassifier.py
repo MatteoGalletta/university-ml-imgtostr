@@ -8,6 +8,7 @@ from ImageToStringNet import ImageToStringNet, classes as ImageToStringClasses
 
 class ImageToStringClassifier:
     __MODEL_PATH = '../src/model_weights.pth'
+    # __MODEL_PATH = '../src/model_weights_v2.pth'
     def __init__(self, image_uploaded):
 
         self.net = ImageToStringNet()
