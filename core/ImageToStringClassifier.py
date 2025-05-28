@@ -49,23 +49,6 @@ class ImageToStringClassifier:
         
         return [ImageToStringClasses[i] for i in predicted]
     
-    def _add_spaces(self, labels):
-        # Add spaces using heuristics
-        dist_dx = [x['dist_dx'] for x in self.preprocessor.get_info() if x['dist_dx'] is not None]
-
-        dist_dx_min = min(dist_dx)
-        dist_dx_max = max(dist_dx)
-
-        space_indexes = [i for i, v in enumerate(dist_dx) if v is not None and v > (dist_dx_min + dist_dx_max) * 0.6]
-
-        # Insert spaces at the specified positions in the labels list
-        labels_with_spaces = labels.copy()
-
-        for idx in reversed(space_indexes):
-            labels_with_spaces.insert(idx + 1, ' ')
-
-        return "".join(labels_with_spaces)
-
     def get_string(self):
         # classify using the model
         labels = list(self._classify())
