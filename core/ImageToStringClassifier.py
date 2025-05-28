@@ -3,6 +3,7 @@ import sys
 import torch 
 from torch import Tensor
 from ImageToStringPreprocessing import ImageToStringPreprocessing
+from ImageToStringPostprocessing import ImageToStringPostprocessing
 sys.path.append('../src')
 from ImageToStringNet import ImageToStringNet, classes as ImageToStringClasses
 
@@ -22,6 +23,7 @@ class ImageToStringClassifier:
         #image_uploaded = cv2.cvtColor(image_uploaded, cv2.COLOR_BGR2RGB)
 
         self.preprocessor = ImageToStringPreprocessing(image_uploaded)
+        self.postprocessor = ImageToStringPostprocessing()
 
     def _classify(self):
 
@@ -61,9 +63,8 @@ class ImageToStringClassifier:
     def get_string(self):
         # classify using the model
         labels = list(self._classify())
-
-        # add spaces using heuristics
-        labels_with_spaces = self._add_spaces(labels)
-
-        return "".join(labels_with_spaces)
-        
+        info_w_char = [{**x[0], 'char': x[1], 'index': i} for i, x in enumerate(zip(self.preprocessor.get_info(), labels))]
+        info_w_char2 = self.postprocessor.heuristics_adjust(info_w_char)
+        char_list = [entry['char'] for entry in info_w_char2]
+        labels_with_spaces = self.postprocessor.heuristics_spaces(info_w_char2, char_list)
+        return "".join(labels_with_spaces).replace("''", '"')
