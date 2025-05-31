@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-classes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,;.:!?'()[]{}<>/\\@#$€£%&~aèéìòù-+°"
+classes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,;.:!?'()[]{}<>/\\@#$€£%&~àèéìòù-+°"
 
 class ImageToStringNetDropout(nn.Module):
     def __init__(self):
