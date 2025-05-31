@@ -1,0 +1,20 @@
+\chapter{Dataset}
+
+Essendo il problema dell'OCR uno dei più studiati in ambito di Computer Vision, esistono diversi dataset pubblici che possono essere utilizzati per addestrare e testare i modelli. Tuttavia, la maggior parte di questi dataset sono stati creati per risolvere problemi generali e non sono specifici per il riconoscimento di testi contenuti in screenshot. Per questo motivo, è stato necessario creare una coppia di dataset ad hoc per il problema in questione.
+
+In particolare, essendo l'algoritmo diviso in due fasi, avere due dataset distinti consente di poter valutare in modo individuale ognuna delle due fasi, consentendo di valutare l'accuratezza del modello in modo più preciso.
+Il primo dataset è composto da immagini di singoli simboli, che consente di testare esclusivamente la fase di classificazione del singolo carattere.
+Il secondo dataset invece contiene immagini di screenshot contenenti una sequenza di simboli casuali. Questo consente di testare la pipeline nella sua interezza, comprendendo sia la suddivisione in caratteri che la classificazione del singolo carattere.
+
+I caratteri considerati nel dataset comprendono quelli dell'alfabeto latino in stampatello maiuscolo e minuscolo, le cifre da 0 a 9 e i seguenti simboli di punteggiatura:
+
+\centering
+
+\text{, ; . : ! ? ' ( ) [ ] \{ \} \textless{} \textgreater{} / \textbackslash{} @ \# \$ \texteuro{} \textsterling{} \% \& \textasciitilde{} à è é ì ò ù - + °}
+
+\raggedright
+
+In totale, il dataset contiene 96 classi.
+
+\section{Sintetizzazione del dataset}
+
