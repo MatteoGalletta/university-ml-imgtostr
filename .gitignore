@@ -536,3 +536,4 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,latex,macos,visualstudiocode
 
 digit_dataset
+words_dataset

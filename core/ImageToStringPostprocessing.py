@@ -35,10 +35,10 @@ class ImageToStringPostprocessing:
             None
         )
 
-        if first_valid_entry:
-            print("Primo carattere valido trovato:", first_valid_entry['char'])
-        else:
-             print("Nessun carattere valido trovato.")
+        #if first_valid_entry:
+            #print("Primo carattere valido trovato:", first_valid_entry['char'])
+        #else:
+             #print("Nessun carattere valido trovato.")
 
         delta = 5
 

@@ -3,17 +3,7 @@ import numpy as np
 import sys
 
 sys.path.append('../core')
-from ImageToStringClassifier import ImageToStringClassifier
-
-def processing(image_pil):
-    if image_pil is None:
-        return None, ""
-
-    image_np = np.array(image_pil)
-    classifier = ImageToStringClassifier(image_np)
-    bboxed_image = classifier.preprocessor.get_bboxed_image()
-    string_output = classifier.get_string()
-    return bboxed_image, string_output
+from main import process_image
 
 def clear_inputs():
     return None, None, ""
@@ -72,7 +62,7 @@ with gr.Blocks(css=custom_css) as demo:
             output_text = gr.Textbox(lines=10, interactive=False, elem_id="output_text_area")
 
     # Collegamenti ai pulsanti
-    btn_submit.click(fn=processing, inputs=[img_input], outputs=[output_img, output_text])
+    btn_submit.click(fn=process_image, inputs=[img_input], outputs=[output_img, output_text])
     btn_cancel.click(fn=clear_inputs, inputs=None, outputs=[img_input, output_img, output_text])
 
 if __name__ == "__main__":
