@@ -47,10 +47,20 @@ L'approccio utilizzato è il seguente, per ogni font:
 	\item Vengono create delle permutazioni dei margini, in modo che nel dataset sia presente ogni possibile combinazione di margini per ogni simbolo.
 \end{itemize}
 
-Il dataset finale conterrà quindi un simbolo per ogni font, con le varie combinazioni di margini.  Nel caso dei font considerati, il dataset contiene un totale di 179292 tuple con la seguente struttura:
+Il dataset finale conterrà quindi un simbolo per ogni font, con le varie combinazioni di margini.  Nel caso dei font considerati, il dataset contiene un totale di 179292 tuple.
+
+È importante notare che a causa di questa ultima aggiunta il dataset dei simboli singoli non rimane perfettamente bilanciato: non tutte le classi (simboli) sono rappresentate dallo stesso numero di campioni. Ad esempio, le parentesi tonde (\texttt{(} e \texttt{)}) sono presenti con circa 600 campioni ciascuna, mentre il trattino (\texttt{-}) conta circa 5000 campioni.
+
+Il dataset è stato suddiviso in due sottoinsiemi: train e test. La suddivisione è stata effettuata secondo una proporzione 75\% per il training e 25\% per il test, necessario per la valutazione delle prestazioni del modello.
+
+\subsection{Struttura del dataset}
+
+Il dataset si compone di una serie di cartelle, una per ogni font, contenenti le immagini dei simboli. Ogni cartella è denominata con il nome del font e contiene le immagini dei simboli in formato PNG. I nomi delle immagini contengono il nome del simbolo rappresentato. Sullo stesso livello della cartella del font, sono presenti due file CSV: uno per il training e uno per il test. Questi file contengono l'elenco dei campioni, con la seguente struttura:
 \begin{center}
 (font, immagine, simbolo, margine\_superiore (\%), margine\_inferiore (\%))
 \end{center}
+
+Nel sorgente del progetto è presente un notebook che mostra come importare il dataset rapidamente in formato PyTorch.
 
 \section{Dataset degli screenshot}
 
