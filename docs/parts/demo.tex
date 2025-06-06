@@ -1,1 +1,22 @@
 \chapter{Demo}
+Per illustrare il funzionamento dell'algoritmo insieme ai suoi principali passaggi, è stata realizzata una demo utilizzando la libreria Python \texttt{Gradio}, che consente la creazione di applicazioni web semplici ed intuitive per modelli di machine learning e intelligenza artificiale, in poche righe di codice.
+
+L'interfaccia guida l'utente attraverso tre fasi fondamentali: caricamento dell'immagine, pre-processing e riconoscimento (OCR).
+
+Nella prima fase, l’utente può caricare uno screenshot da elaborare, tramite upload oppure incollandolo direttamente dagli appunti.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/demo-1fase.png}
+    \caption{Interfaccia di caricamento dell'immagine nella demo.}
+    \label{fig:demo-carica}
+\end{figure}
+
+Una volta cliccato il pulsante \texttt{Submit}, l’immagine viene passata alla funzione \texttt{process\_image}, che la converte in un array NumPy e la fornisce come input a un oggetto \texttt{ImageToStringClassifier}. All'interno di quest'ultimo vengono eseguiti i passaggi di pre-processing e successivamente l'OCR.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/demo-23fase.png}
+    \caption{Output dell'immagine preprocessata e del testo riconosciuto.}
+    \label{fig:demo-carica}
+\end{figure}
+
+In output, l'applicazione restituisce due risultati: l'immagine annotata con i bounding box rilevati durante il pre-processing (sovrapposti all'immagine originale) e il testo riconosciuto.
