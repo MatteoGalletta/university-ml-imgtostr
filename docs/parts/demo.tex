@@ -8,15 +8,15 @@ Nella prima fase, l’utente può caricare uno screenshot da elaborare, tramite 
     \centering
     \includegraphics[width=1\textwidth]{images/demo-1fase.png}
     \caption{Interfaccia di caricamento dell'immagine nella demo.}
-    \label{fig:demo-carica}
+    \label{fig:demo-1fase}
 \end{figure}
 
-Una volta cliccato il pulsante \texttt{Submit}, l’immagine viene passata alla funzione \texttt{process\_image}, che la converte in un array NumPy e la fornisce come input a un oggetto \texttt{ImageToStringClassifier}. All'interno di quest'ultimo vengono eseguiti i passaggi di pre-processing e successivamente l'OCR.
+Una volta cliccato il pulsante \texttt{Elabora}, avviene l'elaborazione dell'immagine. In output, l'applicazione restituisce due risultati: l'immagine annotata con i bounding box rilevati durante il pre-processing (sovrapposti all'immagine originale) e il testo riconosciuto.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/demo-23fase.png}
     \caption{Output dell'immagine preprocessata e del testo riconosciuto.}
-    \label{fig:demo-carica}
+    \label{fig:demo-23fase}
 \end{figure}
 
-In output, l'applicazione restituisce due risultati: l'immagine annotata con i bounding box rilevati durante il pre-processing (sovrapposti all'immagine originale) e il testo riconosciuto.
