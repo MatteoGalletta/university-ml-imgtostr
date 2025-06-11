@@ -22,11 +22,11 @@ I caratteri considerati nel dataset comprendono quelli dell'alfabeto latino in s
 
 In totale, il dataset contiene 96 classi.
 
-Sono stati presi in considerazione 58 font differenti, ognuno con caratteristiche diverse (ad esempio, grassetto, sottile, ecc.).
+Sono stati presi in considerazione 58 font differenti, ognuno con caratteristiche diverse (ad esempio, grassetto, sottile, italic, ecc.).
 
-È stata generata una immagine per ogni simbolo, per ogni font. La dimensione considerata è di 28x28 pixel, in modo da essere compatibile con il modello di classificazione utilizzato nella fase 2.
+È stata generata un'immagine per ogni simbolo, per ogni font. La dimensione considerata è di 28x28 pixel, in modo da essere compatibile con il modello di classificazione utilizzato nella fase 2.
 
-Per la generazione di ogni immagine è stato utilizzato Pillow, una libreria Python per la manipolazione delle immagini. Ogni immagine è stata generata con uno sfondo nero e il simbolo in bianco (con scala di grigi per i bordi). Per come vengono estratti i caratteri dall'immagine da classificare, è necessario che il simbolo nel dataset non abbia margini e che il suo bounding box coincida con il quadro dell'immagine. Per garantire questo vincolo, l'immagine viene inizialmente generata in un'immagine di dimensioni più grandi, successivamente il simbolo viene centrato all'interno dell'immagine. L'immagine viene dunque ritagliata e ridimensionata in modo da ottenere un'immagine di dimensioni 28x28 pixel.
+Per la generazione di ogni immagine è stato utilizzato Pillow, una libreria Python per la manipolazione delle immagini. Ogni immagine è stata generata con uno sfondo nero e il simbolo in bianco (con scala di grigi per i bordi). Per come vengono estratti i caratteri dall'immagine da classificare, è necessario che il simbolo nel dataset non abbia margini e che il suo bounding box coincida con il quadro dell'immagine. Per garantire questo vincolo, l'immagine viene inizialmente generata in un'immagine di dimensioni più grandi, successivamente il simbolo viene centrato all'interno dell'immagine e stampato con una dimensione del font arbitraria (grande abbastanza da far entrare il simbolo nel quadro). Dall'immagine viene dunque estratto un bounding box che viene poi ridimenzionato, in modo da ottenere un'immagine di dimensioni 28x28 pixel.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{images/dataset-symbols.png}
@@ -40,7 +40,7 @@ Come menzionato precedentemente, il modello di classificazione utilizza, oltre a
 \\ \\
 L'approccio utilizzato è il seguente, per ogni font:
 \begin{itemize}
-	\item Si scelgono dimensione di font e quadro dell'immagine di tali valori da consentire a qualsiasi simbolo stampato di entrare all'interno dell'immagine.
+	\item Si scelgono dimensione di font e quadro dell'immagine arbitrari, font sufficientemente piccolo e quadro abbastanza grande da consentire a qualsiasi simbolo stampato di entrare all'interno dell'immagine.
 	\item Si genera un'immagine quadrata per ogni simbolo, con il simbolo centrato all'interno dell'immagine.
 	\item Si calcolano, per ogni simbolo, i margini superiore e inferiore del simbolo rispetto al quadro dell'immagine.
 	\item Si normalizzano i margini rispetto all'altezza del quadro dell'immagine, in modo da ottenere valori compresi tra 0 e 1.
@@ -60,7 +60,7 @@ Il dataset si compone di una serie di cartelle, una per ogni font, contenenti le
 (font, immagine, simbolo, margine\_superiore (\%), margine\_inferiore (\%))
 \end{center}
 
-Nel sorgente del progetto è presente un notebook che mostra come importare il dataset rapidamente in formato PyTorch.
+\textcolor{red}{SPOSTARE SU CAPITOLO CODICE! Nel sorgente del progetto è presente un notebook che mostra come importare il dataset rapidamente in formato PyTorch.}
 
 \section{Dataset degli screenshot}
 
@@ -68,6 +68,15 @@ Il dataset degli screenshot è stato creato per testare l'intera pipeline, dalla
 
 Il dataset contiene immagini di screenshot contenenti una sequenza di 10 simboli casuali. In aggiunta ai simboli considerati nel dataset dei simboli singoli, sono stati aggiunti i caratteri "spazio" e "virgolette" (`"`), in modo da poter testare le euristiche relative al riconoscimento di questi caratteri.
 
-Per la generazione di ogni immagine viene utilizzato un approccio simile a quello utilizzato per il dataset dei simboli singoli. Viene utilizzato Pillow per generare gli screenshot sintetici, scegliando un font casuale ed estraendo randomicamente 10 simboli da concatenare. Per aumentare la precisione delle metriche, vengono inoltre selezionati dei colori casuali per il testo e lo sfondo, in modo da simulare screenshot reali e verificare che le operazioni di pre-processing siano efficaci.
+Per la generazione di ogni immagine viene utilizzato un approccio simile a quello utilizzato per il dataset dei simboli singoli. Viene utilizzato Pillow per generare gli screenshot sintetici, scegliando un font casuale e stampando al suo interno la sequenza di simboli da testare.
+Per aumentare la precisione delle metriche, vengono inoltre selezionati dei colori casuali per il testo e lo sfondo, in modo da simulare screenshot reali e verificare che le operazioni di pre-processing siano efficaci.
+
+Sono state previste due varianti del dataset, in modo da poter testare la pipeline in modo più completo e verificare che le euristiche implementate funzionino correttamente.
+
+\begin{itemize}
+	\item \textbf{Sequenze di 10 simboli casuali}: prevede immagini di sequenze di 10 caratteri estratti randomicamente e concatenati per formare una parola (o una frase, considerando che lo spazio è incluso tra i simboli stampati).
+	\item \textbf{Frasi di senso compiuto}: contiene immagini di screenshot di frasi di senso compiuto, estratte da un dataset pubblico di citazioni in lingua inglese. In particolare, le frasi sono state selezionate da un dataset pubblico disponibile su Hugging Face \footnote{Abir ELTAIEF, \textit{english\_quotes (Revision \texttt{7b544c4})}, 2023. Disponibile su: \url{https://huggingface.co/datasets/Abirate/english_quotes}, DOI: 10.57967/hf/1053.}
+\end{itemize}
+
 
 
