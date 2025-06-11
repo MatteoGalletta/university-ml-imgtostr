@@ -15,6 +15,9 @@ class ImageToStringPostprocessing:
     def heuristics_spaces(self, info, labels):
         dist_dx = [x['dist_dx'] for x in info if x['dist_dx'] is not None]
 
+        if not dist_dx:
+            return "".join(labels)
+
         dist_dx_min = min(dist_dx)
         dist_dx_max = max(dist_dx)
 
