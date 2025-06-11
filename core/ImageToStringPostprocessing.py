@@ -4,13 +4,14 @@ class ImageToStringPostprocessing:
 
     car_conf = {'c', 'j', 'k', 'o', 'p', 's', 'u', 'v', 'w', 'x', 'z',
             'C', 'J', 'K', 'O', 'P', 'S', 'U', 'V', 'W', 'X', 'Z'}
-    car_non_conf_maiusc = {'A', 'B', 'D', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'Q', 'R', 'T', 'Y'}
+    car_non_conf_maiusc = {'A', 'B', 'D', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'Q', 'R', 'T', 'Y', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
     car_non_conf_minusc_b = {'g', 'm', 'y', 'o', 's', 'e', 'z', 'u', 'a', 'r', 'n', 'c', 'v', 'p', 'w', 'x', 'q'}
     car_non_conf_minusc_a = {'t', 'i', 'd', 'f', 'h', 'j', 'k', 'l', 'b'}
 
     def __init__(self):
         return
     
+    #DIST_DX_THRESHOLD_MULT = 0.9
     def heuristics_spaces(self, info, labels):
         dist_dx = [x['dist_dx'] for x in info if x['dist_dx'] is not None]
 
@@ -40,7 +41,7 @@ class ImageToStringPostprocessing:
         #else:
              #print("Nessun carattere valido trovato.")
 
-        delta = 5
+        delta = 10
 
         if first_valid_entry['char'] in self.car_non_conf_maiusc:
             for entry in info_w_char_conf:

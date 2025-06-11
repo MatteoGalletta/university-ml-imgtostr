@@ -1,6 +1,7 @@
 import cv2
 import sys
 import torch 
+import numpy as np
 from torch import Tensor
 from ImageToStringPreprocessing import ImageToStringPreprocessing
 from ImageToStringPostprocessing import ImageToStringPostprocessing
@@ -11,7 +12,7 @@ from ImageToStringNetDropout import ImageToStringNetDropout
 class ImageToStringClassifier:
     # __MODEL_PATH = '../src/model_weights.pth'
     # __MODEL_PATH = '../src/model_weights_v2.pth'
-    __MODEL_PATH = '../src/model_weights_v4_25-epochs-dropout.pth'
+    __MODEL_PATH = '../src/model_weights_v7.pth'
 
     # __NET = ImageToStringNet()
     __NET = ImageToStringNetDropout()
@@ -35,7 +36,8 @@ class ImageToStringClassifier:
 
         device = torch.device('xpu' if torch.xpu.is_available() else 'cpu')
 
-        images = Tensor([x['img'][None, ...] for x in self.preprocessor.get_info()]).to(device)
+        images_np = np.array([x['img'][None, ...] for x in self.preprocessor.get_info()])
+        images = Tensor(images_np).to(device)
         top_margins = Tensor([x['dist_top'] for x in self.preprocessor.get_info()]).to(device)
         bottom_margins = Tensor([x['dist_bottom'] for x in self.preprocessor.get_info()]).to(device)
 
