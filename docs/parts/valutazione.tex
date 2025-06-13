@@ -155,7 +155,9 @@ Per una valutazione più dettagliata, sono state considerate tre varianti di str
 \begin{itemize}
     \item \textbf{Accuracy case sensitive (CS)}: confronto rigoroso che distingue tra maiuscole e minuscole;
     \item \textbf{Accuracy case insensitive (CI)}: confronto che ignora le differenze tra maiuscole e minuscole, utile per valutare la capacità di distinguere caratteri simili o confondibili;
-    \item \textbf{Accuracy case insensitive senza spazi (CSNS)}: confronto che ignora sia il case sia gli spazi, utile per gestire eventuali errori di segmentazione o spaziatura
+    \item \textbf{Accuracy case sensitive senza spazi (CSNS)}: confronto che ignora gli spazi ma distingue tra maiuscole e minuscole, utile per valutare la capacità di riconoscimento senza considerare errori di spaziatura.
+    \item \textbf{Accuracy case insensitive senza spazi (CINS)}: confronto che ignora sia il case sia gli spazi, utile per gestire eventuali errori di segmentazione o spaziatura
+
 \end{itemize}
 
 La tabella seguente riporta i valori di word accuracy per ciascuna casistica, calcolati separatamente sui due dataset degli screenshot.
@@ -164,12 +166,12 @@ La tabella seguente riporta i valori di word accuracy per ciascuna casistica, ca
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{lccc}
+    \begin{tabular}{lcccc}
         \toprule
-        Dataset & CS & CI & CSNS \\
+        Dataset                 & CS & CI & CSNS & CINS \\
         \midrule
-        Sequenze casuali & 0.00 & 0.00 & 0.00 \\
-        Frasi di senso compiuto & 0.00 & 0.00 & 0.00 \\
+        Sequenze casuali        & 0.00 & 0.00 & 0.00 & 0.00 \\
+        Frasi di senso compiuto & 0.00 & 0.00 & 0.00 & 0.00 \\
         \bottomrule
     \end{tabular}
     \caption{Word Accuracy per dataset e casistica di confronto}
