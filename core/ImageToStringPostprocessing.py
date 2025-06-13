@@ -39,6 +39,9 @@ class ImageToStringPostprocessing:
             None
         )
 
+        if first_valid_entry is None: # we can't correct anything
+            return info 
+
         #if first_valid_entry:
             #print("Primo carattere valido trovato:", first_valid_entry['char'])
         #else:

@@ -15,8 +15,6 @@ Le curve Precision-Recall (PR) consentono di analizzare il bilanciamento tra \em
 \subsubsection{Risultati}
 In Figura~\ref{fig:pr_curves} sono riportate le curve per un sottoinsieme rappresentativo di classi non confondibili.
 
-\textcolor{red}{RIFARE screen dopo fixes}
-
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -103,13 +101,15 @@ Si osserva come la diagonale principale della matrice sia in gran parte ben marc
 
 Questa osservazione conferma la precedente analisi delle PR-curves: la maggior parte degli errori è riconducibile a un numero limitato di classi particolarmente confondibili.
 
+Nel repository del progetto è disponibile una matrice di confusione completa sotto forma di report HTML.
+
 \section{Valutazione parole}
 \label{sec:valutazione-parole}
 
 Per l'analisi a livello di parola sono state adottate due metriche principali:
 \begin{enumerate}
-    \item Distanza di edit (\emph{Levenshtein distance});
-    \item Word Accuracy.
+    \item Distanza di edit (\emph{Levenshtein distance \footnote{V. I. Levenshtein, “Binary codes capable of correcting deletions, insertions and reversals,” \textit{Soviet Physics Doklady}, vol. 10, pp. 707-710, 1966.} });
+    \item String Accuracy.
 \end{enumerate}
 
 I calcoli sono stati effettuati sui dataset degli screenshot descritti nella \autoref{sec:dataset_screenshots}, che comprendono due tipologie di dati:
@@ -120,7 +120,7 @@ I calcoli sono stati effettuati sui dataset degli screenshot descritti nella \au
 
 \subsection{Distanza di edit}
 
-La distanza di edit\footnote{V. I. Levenshtein, “Binary codes capable of correcting deletions, insertions and reversals,” \textit{Soviet Physics Doklady}, vol. 10, pp. 707–710, 1966.} tra la parola riconosciuta e la parola ground-truth è stata calcolata per ciascun esempio, normalizzando il valore sulla lunghezza della parola.
+La distanza di edit tra la parola riconosciuta e la parola ground-truth è stata calcolata per ciascun esempio, normalizzando il valore sulla lunghezza della parola.
 
 Di seguito si riporta una tabella con le statistiche principali (media, mediana e deviazione standard) della distanza di edit normalizzata, calcolate separatamente per i due dataset.
 
@@ -144,13 +144,13 @@ Dal confronto emerge che il modello si comporta meglio nel riconoscimento delle 
 
 \textcolor{red}{DIRE quale può essere il motivo}
 
-\subsection{Word Accuracy}
-La word accuracy è definita come la percentuale di parole riconosciute esattamente:
+\subsection{String Accuracy}
+La string accuracy è definita come la percentuale di stringhe riconosciute esattamente nella loro interezza:
 \[
-    \mathrm{WordAccuracy} = \frac{\text{numero di parole perfettamente riconosciute}}{\text{numero totale di parole}}.
+    \mathrm{StringAccuracy} = \frac{\text{numero di stringhe perfettamente riconosciute}}{\text{numero totale di immagini}}.
 \]
 
-Per una valutazione più dettagliata, sono state considerate tre varianti di word accuracy, che tengono conto di diverse esigenze di confronto:
+Per una valutazione più dettagliata, sono state considerate tre varianti di string accuracy, che tengono conto di diverse esigenze di confronto:
 
 \begin{itemize}
     \item \textbf{Accuracy case sensitive (CS)}: confronto rigoroso che distingue tra maiuscole e minuscole;

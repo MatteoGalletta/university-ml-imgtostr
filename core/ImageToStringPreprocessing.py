@@ -154,6 +154,9 @@ class ImageToStringPreprocessing:
                 new_h = 28
                 new_w = int(w * scale)
 
+            # Ensure new_w and new_h are at least 1
+            new_w = max(1, new_w)
+            new_h = max(1, new_h)
             resized = cv2.resize(cropped, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
             # Canvas nero (1 canale)
@@ -192,6 +195,8 @@ class ImageToStringPreprocessing:
                 new_h = 28
                 new_w = int(w * scale)
 
+            new_w = max(1, new_w)
+            new_h = max(1, new_h)
             resized = cv2.resize(cropped, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
             # Canvas nero (1 canale)
