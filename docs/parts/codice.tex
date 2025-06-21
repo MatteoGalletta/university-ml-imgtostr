@@ -1,1 +1,56 @@
 \chapter{Codice}
+
+Il codice del progetto è suddiviso in quattro cartelle ciascuna delle quali si occupa di un aspetto specifico del flusso. Di seguito è riportata la struttura delle cartelle e dei file princiapali, per avere una panoramica dell'organizzazione del progetto. \\ 
+
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+\begin{tikzpicture}[%
+  grow via three points={one child at (0.5,-0.68) and
+  two children at (0.5,-0.71) and (0.5,-1.45)},
+  edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  \node {root/}
+    child { node {core/}
+        child{ node {ImageToStringClassifier.py}}
+        child{ node {ImageToStringPostprocessing.py}}
+        child{ node {ImageToStringPreprocessing.py}}
+    }
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child { node {dataset}
+        child { node {dataset.ipynb}}
+    }
+    child [missing] {}
+    child { node {demo/}
+        child { node {demo.py}}
+    }
+    child [missing] {}
+    child { node {src/}
+        child { node {ImageToStringNet.py}}
+        child { node {ImageToStringNetDropout.py}}
+        child { node {main.ipynb}}
+    }
+    child [missing] {}
+    child [missing] {}
+    child [missing] {};
+\end{tikzpicture}
+
+\section{Core}
+La cartella \emph{core} contiene il codice delle tre classi dedicate a PreProcessing, PostProcessing e Classificazione.
+\subsection{PreProcessing}
+La classe \texttt{ImageToStringPreprocessing} gestisce l'elaborazione preliminare dell'immagine di input per prepararla alla fase successiva di classificazione ed è composta dai seguenti metodi:
+
+\subsubsection*{Costruttore: \texttt{\_\_init\_\_(self, image)}}
+\begin{itemize}
+    \item Ricevere l'immagine originale RGB.
+    \item Crea due versioni preprocessate dell'immagine:
+    \begin{itemize}
+        \item \texttt{image\_binary}: immagine binarizzata tramite \\\texttt{\_preprocess(to\_binary=True)}.
+        \item \texttt{image\_gray}: immagine in scala di grigi normalizzata tramite \texttt{\_preprocess(to\_binary=False)}.
+    \end{itemize}
+    \item Chiama \texttt{\_segment\_and\_analyze()} che individua le lettere segementandole e ne analizza le caratteristiche; salva l'immagine con bounding box e le informazioni su ogni lettera.
+    \item Chiama \texttt{\_extract\_letters()} per creare la lista di immagini delle singole lettere ridimensionate a 28x28 pixel.
+\end{itemize}
+\subsection{PostProcessing}
+\subsection{Classificazione}
