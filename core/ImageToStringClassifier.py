@@ -7,15 +7,13 @@ from ImageToStringPreprocessing import ImageToStringPreprocessing
 from ImageToStringPostprocessing import ImageToStringPostprocessing
 sys.path.append('../src')
 from ImageToStringNet import ImageToStringNet, classes as ImageToStringClasses
-from ImageToStringNetDropout import ImageToStringNetDropout
 
 class ImageToStringClassifier:
     # __MODEL_PATH = '../src/model_weights.pth'
     # __MODEL_PATH = '../src/model_weights_v2.pth'
     __MODEL_PATH = '../src/model_weights_v7.pth'
 
-    # __NET = ImageToStringNet()
-    __NET = ImageToStringNetDropout()
+    __NET = ImageToStringNet(dropout_rate=0.5)
 
     def __init__(self, image_uploaded):
 

@@ -5,23 +5,38 @@ import torch.nn.functional as F
 classes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,;.:!?'()[]{}<>/\\@#$€£%&~àèéìòù-+°"
 
 class ImageToStringNet(nn.Module):
-    def __init__(self):
+    def __init__(self, dropout_rate):
         super(ImageToStringNet, self).__init__()
-        self.conv1 = nn.Conv2d(1, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 4 * 4 + 2, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, len(classes))
+
+        self.feature_extractor = nn.Sequential(
+            # Conv1
+            nn.Conv2d(1, 6, 5),
+            nn.MaxPool2d(2, 2),
+            nn.ReLU(),
+
+            # Conv2
+            nn.Conv2d(6, 16, 5),
+            nn.MaxPool2d(2, 2),
+            nn.ReLU(),
+        )
+
+        self.classifier = nn.Sequential(
+            nn.Dropout(p=dropout_rate),
+            nn.Linear(16 * 4 * 4 + 2, 120),
+            nn.ReLU(),
+
+            nn.Dropout(p=dropout_rate),
+            nn.Linear(120, 84),
+            nn.ReLU(),
+
+            nn.Linear(84, len(classes))
+        )
 
     def forward(self, x, top_margin, bottom_margin):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 4 * 4)
+        x = self.feature_extractor(x)
         
+        x = x.view(-1, 16 * 4 * 4)
         x = torch.cat((x, top_margin.view(-1, 1), bottom_margin.view(-1, 1)), dim=1)
         
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
+        x = self.classifier(x)
         return x
