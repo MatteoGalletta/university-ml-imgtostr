@@ -18,7 +18,7 @@ Il codice del progetto è suddiviso in quattro cartelle ciascuna delle quali si 
     child [missing] {}
     child [missing] {}
     child [missing] {}
-    child { node {dataset}
+    child { node {dataset/}
         child { node {dataset.ipynb}}
     }
     child [missing] {}
@@ -27,10 +27,12 @@ Il codice del progetto è suddiviso in quattro cartelle ciascuna delle quali si 
     }
     child [missing] {}
     child { node {src/}
+        child { node {evaluation\_english\_words.ipynb}}
+        child { node {evaluation\_random\_words.ipynb}}
         child { node {ImageToStringNet.py}}
-        child { node {ImageToStringNetDropout.py}}
         child { node {main.ipynb}}
     }
+    child [missing] {}
     child [missing] {}
     child [missing] {}
     child [missing] {};
@@ -50,4 +52,14 @@ A partire da un'immagine contenente una sequenza di caratteri, la classe \texttt
 \subsection{PostProcessing}
 La classe \texttt{ImageToStringPostprocessing} a partire dalla lista delle lettere classificate con relative informazioni spaziali, applica le euristiche discusse nei capitoli precedenti per decidere dove inserire spazi tra parole, basandosi sulle distanze orizzontali tra i caratteri. Inoltre, sfrutta la posizione verticale delle lettere rispetto ai bounding box generale per correggere l'uso errato delle maiuscole e minuscole in caratteri ambigui, confrontando ciascun carattere incerto con il primo considerato affidabile. Il rsultato è una sequenza di caratteri più coerente, utile per migliorare l'output finale del sistema di OCR.
 
-
+\section{Dataset}
+La cartella \emph{dataset} conteine il notebook \texttt{dataset.ipynb} che si occupa della preparazione del dataset per l’addestramento e la valutazione del modello, questo include funzioni per la generazione e la raccolta delle immagini, la loro normalizzazione e la suddivisione in insiemi di training, validation e test.
+\section{Demo}
+La cartella \emph{demo} contiene il file \texttt{demo.py}, che fornisce l'interfaccia semplice per testare il modello. Lo script permette di caricare un'immagine, eseguire il preprocessing, la classificazione e visualizzare il risultato finale.
+\section{Src}
+La cartella \emph{src} contiene i file principali per l'addestramento, la valutazione e l'esecuzione del modello. In particolare:
+\begin{itemize}
+    \item \texttt{main.ipynb}: notebook principale che integra tutte le fasi del progetto, dall'importazione dei dati al preprocessing, addestramento e valutazione del modello.
+    \item \texttt{ImageToStringNet.py}: implementazione della rete neurale convoluzionale (CNN) utilizzata per la classificazione dei caratteri.
+    \item \texttt{evaluation\_english\_words.ipynb} e \\ \texttt{evaluation\_random\_words.ipynb}: notebook dedicati alla valutazione delle prestazioni del modello su dataset di parole inglesi e parole generate casualmente, rispettivamente.
+\end{itemize}
