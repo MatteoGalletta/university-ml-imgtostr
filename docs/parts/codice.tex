@@ -1,5 +1,5 @@
 \chapter{Codice}
-Il codice del progetto è suddiviso in quattro cartelle ciascuna delle quali si occupa di un aspetto specifico del flusso. Di seguito è riportata la struttura delle cartelle e dei file princiapali, per avere una panoramica dell'organizzazione del progetto. \\ 
+Il codice del progetto è suddiviso in quattro cartelle ciascuna delle quali si occupa di un aspetto specifico del flusso. Di seguito è riportata la struttura delle cartelle e dei file principali, per avere una panoramica dell'organizzazione del progetto. \\ 
 
 \tikzstyle{every node}=[draw=black,thick,anchor=west]
 \tikzstyle{selected}=[draw=red,fill=red!30]
@@ -46,10 +46,10 @@ Successivamente, rileva e raggruppa le componenti connesse per identificare le s
 Ogni lettera viene poi ritagliata, ridimensionata proporzionalmente e centrata su un'immagine nera 28x28, rendendola pronta per le fasi successive. La classe inoltre fornisce metodi per accedere all'immagine segmentata, alle lettere preprocessate e alla loro visualizzazione.
 
 \subsection{Classificazione}
-A partire da un'immagine contenente una sequenza di caratteri, la classe \texttt{ImageToStringClassifier} gestisce l'intero processo di riconoscimento integrando preprocessing, postprocessing e \texttt{ImageToStringNetDropout} per la classificazione.
+A partire da un'immagine contenente una sequenza di caratteri, la classe \texttt{ImageToStringClassifier} gestisce l'intero processo di riconoscimento integrando preprocessing, postprocessing e \texttt{ImageToStringNet} per la classificazione.
 
 \subsection{PostProcessing}
-La classe \texttt{ImageToStringPostprocessing} a partire dalla lista delle lettere classificate con relative informazioni spaziali, applica le euristiche discusse nei capitoli precedenti per decidere dove inserire spazi tra parole, basandosi sulle distanze orizzontali tra i caratteri. Inoltre, sfrutta la posizione verticale delle lettere rispetto ai bounding box generale per correggere l'uso errato delle maiuscole e minuscole in caratteri ambigui, confrontando ciascun carattere incerto con il primo considerato affidabile. Il rsultato è una sequenza di caratteri più coerente, utile per migliorare l'output finale del sistema di OCR.
+La classe \texttt{ImageToStringPostprocessing} a partire dalla lista delle lettere classificate con relative informazioni spaziali, applica le euristiche discusse nei capitoli precedenti per decidere dove inserire spazi tra parole, basandosi sulle distanze orizzontali tra i caratteri. Inoltre, sfrutta la posizione verticale delle lettere rispetto ai bounding box generale per correggere l'uso errato delle maiuscole e minuscole in caratteri ambigui, confrontando ciascun carattere incerto con il primo considerato affidabile. Il risultato è una sequenza di caratteri più coerente, utile per migliorare l'output finale del sistema di OCR.
 
 \section{Dataset}
 La cartella \emph{dataset} contiene il notebook \texttt{dataset.ipynb}, in cui sono descritte e implementate tutte le procedure necessarie per la creazione del dataset.
