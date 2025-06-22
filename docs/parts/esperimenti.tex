@@ -1,20 +1,27 @@
-\chapter{Valutazione}
-L'obiettivo principale è stato duplice: da un lato valutare la capacità di riconoscimento a livello di singolo carattere, dall'altro quantificare la qualità complessiva della trascrizione a livello di parola. Per ciascun livello di analisi sono state scelte metriche particolari in grado di fornire una misura oggettiva delle performance del modello.
+\chapter{Esperimenti}
+\section{Exp-1}
+\section{Exp-2}
+\section{Exp-3}
+\section{Exp-4}
+\section{Exp-5}
 
-\section{Valutazione a livello di carattere}
-\label{sec:valutazione-caratteri}
+\section{Valutazioni Test-Set}
+\textcolor{red}{INSERIRE intro sul fatto che abbiamo valutato singoli char e frasi}:
+
+\subsection{Singoli caratteri}
 La valutazione sui singoli caratteri si articola in due diverse analisi:
 \begin{itemize}
     \item Curve Precision-Recall
     \item Matrice di confusione
 \end{itemize}
 
-\subsection{Curve Precision–Recall}
+\subsubsection*{Curve Precision-Recall}
 Le curve Precision-Recall (PR) consentono di analizzare il bilanciamento tra \emph{precision} e \emph{recall} nelle predizioni del modello, mostrando quanto esso riesca a mantenere alta la precisione man mano che aumenta la quantità di caratteri correttamente riconosciuti. Un indicatore sintetico della qualità complessiva è l'area sotto la curva (AUC-PR), che risulta tanto più elevata quanto migliore è la capacità del modello di conciliare accuratezza e sensibilità nel riconoscimento dei caratteri.
 
-\subsubsection{Risultati}
+\subsubsection*{Risultati}
 In Figura~\ref{fig:pr_curves} sono riportate le curve per un sottoinsieme rappresentativo di classi non confondibili.
 
+\textcolor{red}{INSERIRE quelle nuove}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -40,6 +47,7 @@ Nel complesso, il modello mostra buone prestazioni, con curve PR ampie e stabili
 
 Tuttavia, alcune classi risultano più problematiche. Come visibile in Figura~\ref{fig:pr-confondibili}.
 
+\textcolor{red}{INSERIRE quelle nuove}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -62,7 +70,7 @@ Tuttavia, alcune classi risultano più problematiche. Come visibile in Figura~\r
 \end{figure}
 
 Per valutare l'impatto della distinzione tra maiuscole e minuscole, è stata ripetuta l'analisi ignorando il case. Come mostrato in Figura~\ref{fig:pr-ignore}, l'area sotto la curva migliora sensibilmente, suggerendo che una parte consistente degli errori è dovuta a una difficoltà del modello nel distinguere il case piuttosto che a un'incapacità di riconoscere la forma del carattere.
-
+\textcolor{red}{INSERIRE quelle nuove}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -88,6 +96,8 @@ Questi risultati suggeriscono che, pur in presenza di buone prestazioni globali,
 
 
 \subsection{Matrice di confusione}
+\textcolor{red}{INSERIRE i vari case riportati su sheet}
+
 La matrice di confusione aggregata a livello di carattere, mostrata in Figura~\ref{fig:confusion_matrix}, offre una panoramica dettagliata sugli errori di classificazione del modello. Ogni cella \((i, j)\) della matrice rappresenta il numero di volte in cui un carattere \(i\) è stato classificato dal modello come appartenente alla classe \(j\).
 
 \begin{figure}[htbp]
@@ -103,7 +113,7 @@ Questa osservazione conferma la precedente analisi delle PR-curves: la maggior p
 
 Nel repository del progetto è disponibile una matrice di confusione completa sotto forma di report HTML.
 
-\section{Valutazione string}
+\subsection{Valutazione parole}
 \label{sec:valutazione-stringhe}
 
 Per l'analisi a livello di parola sono state adottate due metriche principali:
