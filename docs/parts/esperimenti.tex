@@ -5,7 +5,7 @@
 \section{Exp-4}
 \section{Exp-5}
 
-\section{Valutazioni Test-Set}
+\section{Valutazioni}
 \textcolor{red}{INSERIRE intro sul fatto che abbiamo valutato singoli char e frasi}:
 
 \subsection{Singoli caratteri}
@@ -96,10 +96,8 @@ Questi risultati suggeriscono che, pur in presenza di buone prestazioni globali,
 
 
 \subsection{Matrice di confusione}
-\textcolor{red}{INSERIRE i vari case riportati su sheet}
-
 La matrice di confusione aggregata a livello di carattere, mostrata in Figura~\ref{fig:confusion_matrix}, offre una panoramica dettagliata sugli errori di classificazione del modello. Ogni cella \((i, j)\) della matrice rappresenta il numero di volte in cui un carattere \(i\) è stato classificato dal modello come appartenente alla classe \(j\).
-
+\textcolor{red}{METTERE QUELLE NUOVE E RITAGLIATE BENE}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.65\textwidth]{images/confusion_matrix.png}
@@ -109,9 +107,17 @@ La matrice di confusione aggregata a livello di carattere, mostrata in Figura~\r
 
 Si osserva come la diagonale principale della matrice sia in gran parte ben marcata, indicando una prevalenza di classificazioni corrette. Le deviazioni più evidenti dalla diagonale si concentrano invece in corrispondenza di coppie di caratteri visivamente simili, che il modello tende a confondere con maggiore frequenza.
 
-Questa osservazione conferma la precedente analisi delle PR-curves: la maggior parte degli errori è riconducibile a un numero limitato di classi particolarmente confondibili.
+A tal proposito è stata creata un alternativa matrice di confusione che ignora il case, come mostrato in Figura~\ref{fig:confusion_matrix_case_insensitive}. Questa matrice evidenzia che molti errori sono dovuti a questa confusione.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.65\textwidth]{images/confusion_matrix_case.png}
+    \caption{Matrice di confusione ignorando il case}
+    \label{fig:confusion_matrix_case_insensitive}
+\end{figure}
 
-Nel repository del progetto è disponibile una matrice di confusione completa sotto forma di report HTML.
+Questa osservazione conferma la precedente analisi delle PR-curves riguardo i problemi con le classi confondibili.
+
+Nel repository del progetto sono disponibili le matrici di confusione completa sotto forma di report HTML.
 
 \subsection{Valutazione parole}
 \label{sec:valutazione-stringhe}
