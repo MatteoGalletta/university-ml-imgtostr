@@ -38,7 +38,7 @@ Il codice del progetto è suddiviso in quattro cartelle ciascuna delle quali si 
 \end{tikzpicture}
 
 \section{Core}
-La cartella \emph{core} contiene il codice delle tre classi dedicate a preprocessing, classificazione e postprocessing.
+La cartella \emph{core} contiene il codice delle tre classi dedicate a preprocessing, classificazione e postprocessing. Ciascun file definisce una classe omonima.
 
 \subsection{PreProcessing}
 La classe \texttt{ImageToStringPreprocessing} prepara l'immagine contenente testo per la fase successiva di classificazione, segmentando le lettere e normalizzandole in un formato uniforme. A partire da un'immagine in input, esegue operazioni come conversione in scala di grigi, binarizzazione e inversione del contrasto se necessario. 
@@ -83,8 +83,8 @@ Il file \texttt{ImageToStringNet.py} contiene la classe che implementa la rete n
 
 Il costruttore della classe \texttt{ImageToStringNet} definisce l'architettura della rete, ed è suddiviso in due moduli principali:
 \begin{itemize}
-    \item \textbf{Feature Extraction}: implementa i due blocchi convoluzionali, dove ciascuno consiste di convoluzione, max pooling e ReLU.
-    \item \textbf{Classifier}: prende in input le feature provenienti dal modulo convoluzionale e le elabora attraverso la rete di tre layer fully connected dove i primi due utilizzano dropout per prevenire l'overfitting seguite da ReLU e l'ultimo layer di output mappa gli 84 neuroni finale al numero di classe possibili.
+    \item \textbf{Feature Extractor}: implementa i due blocchi convoluzionali, dove ciascuno consiste di convoluzione, max pooling e ReLU.
+    \item \textbf{Classifier}: prende in input le feature provenienti dal \texttt{feature\_extractor} e le elabora attraverso la rete di tre layer fully connected dove i primi due utilizzano dropout per prevenire l'overfitting seguite da ReLU e l'ultimo layer di output mappa gli 84 neuroni finali al numero di classi possibili.
 \end{itemize}
 
 Nel metodo \texttt{forward}, viene definito il flusso dell'input attraverso la rete, l'immagine viene processata dal modulo \texttt{feature$\_$extractor} restituendo un tensore che viene appiattito e vengono concatenati i due margini superiori e inferiori, infine viene passato al modulo \texttt{classifier} che produce l'output finale.
