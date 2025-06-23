@@ -52,15 +52,16 @@ A partire da un'immagine contenente una sequenza di caratteri, la classe \texttt
 La classe \texttt{ImageToStringPostprocessing} a partire dalla lista delle lettere classificate con relative informazioni spaziali, applica le euristiche discusse nei capitoli precedenti per decidere dove inserire spazi tra parole, basandosi sulle distanze orizzontali tra i caratteri. Inoltre, sfrutta la posizione verticale delle lettere rispetto ai bounding box generale per correggere l'uso errato delle maiuscole e minuscole in caratteri ambigui, confrontando ciascun carattere incerto con il primo considerato affidabile. Il risultato è una sequenza di caratteri più coerente, utile per migliorare l'output finale del sistema di OCR.
 
 \section{Dataset}
-La cartella \emph{dataset} contiene il notebook \texttt{dataset.ipynb}, in cui sono descritte e implementate tutte le procedure necessarie per la creazione del dataset.
-Sono definite le funzioni per la generazione automatica delle immagini dei caratteri che permettono di creare immagini sintetiche di lettere, al variare di font, dimensioni.
-Segue una fase di normalizzazione delle immagini, in cui ciascuna immagine viene convertita in scala di grigi, ridimensionata e centrata su uno sfondo uniforme, 28x28 pixel. Il notebook include anche procedure per la suddivisione del dataset in insiemi di training, validation e test, assicurando che la distribuzione delle classi sia bilanciata.
-
-Viene mostrato come salvare i dati in formato compatibile con PyTorch (\texttt{torch.utils.data.Dataset}) e come importarli rapidamente nei notebook di addestramento e valutazione.
-
-Infine, sono implementate funzioni dedicate alla generazione automatica di parole e frasi. Queste funzioni permettono di creare immagini sintetiche che rappresentano sequenze di caratteri, sia come singole parole sia come frasi complete. La generazione avviene componendo stringhe casuali o selezionate da dizionari di parole, che vengono poi renderizzate su immagini. Per ogni immagine generata, vengono salvate le etichette corrispondenti e le informazioni di segmentazione, utili sia per il training che per la valutazione del modello.
+La cartella \emph{dataset} contiene il notebook \texttt{dataset.ipynb}, in cui sono descritte e implementate tutte le procedure necessarie per la creazione dei dataset dei simboli singoli e degli screenshot.
+\subsection{Dataset dei simboli singoli}
+Nella prima parte del notebook, sono definite le funzioni per la generazione automatica delle immagini dei caratteri che permettono di creare immagini sintetiche di lettere, al variare di font e margini.
+Segue una fase di normalizzazione delle immagini, in cui ciascuna immagine viene convertita in scala di grigi, ridimensionata e centrata su uno sfondo uniforme, 28x28 pixel. Il notebook include le procedure per la suddivisione del dataset in insiemi di training e test, distribuiti rispettivamente in 75\% e 25\%.
+Viene definito il salvataggio dei dati in formato compatibile con PyTorch (\texttt{torch.utils.data.Dataset}) e come importarli rapidamente nei notebook di addestramento e valutazione.
+\subsection{Dataset degli screenshot}
+Nella parte finale del notebook è presente la funzione incaricata di generare il dataset degli screenshot, nelle sue due varianti. Una prima cella la richiama per generare immagini contenenti sequenze di 10 caratteri casuali, mentre una seconda cella la utilizza per generare frasi di senso compiuto, selezionate da un dataset di citazioni. In entrambi i casi, per ogni font presente nella lista fornita, vengono create 100 immagini con uno sfondo di un colore scelto casualmente. Per garantire una buona leggibilità del testo, viene calcolata la luminosità dello sfondo e, in base a essa, viene determinato se usare testo bianco o nero. Dopo aver centrato il testo all’interno dell’immagine, quest’ultima viene salvata all’interno della directory corrispondente al font, utilizzando un nome univoco generato automaticamente.
 \section{Demo}
 La cartella \emph{demo} contiene il file \texttt{demo.py}, che fornisce l'interfaccia semplice per testare il modello descritta nel Capitolo \ref{cap:demo}. Lo script permette di caricare un'immagine, eseguire il preprocessing, la classificazione e visualizzare il risultato finale.
+
 \section{Src}
 La cartella \emph{src} contiene i file principali per l'addestramento, la valutazione e l'esecuzione del modello. In particolare:
 \begin{itemize}
@@ -73,12 +74,20 @@ La cartella \emph{src} contiene i file principali per l'addestramento, la valuta
 \subsection{main.ipynb}
 Il notebook \texttt{main.ipynb} rappresenta il fulcro del progetto, integrando tutte le fasi principali del flusso di lavoro. Inizialmente, vengono importate le librerie necessarie e caricati i dati preprocessati dal dataset. Successivamente, avviene fase di preprocessing delle immagini, utilizzando le classi definite nella cartella \emph{core} per segmentare e normalizzare i caratteri. 
 
-Segue la definizione e l'inizializzazione della rete \texttt{ImageToStringNet}, con la possibilità di configurare il numero di classi, il tasso di apprendimento e il dropout. Viene impostato il ciclo di addestramento: per ogni epoca, il modello viene allenato sui dati di training e valutato su quelli di validazione, con il calcolo delle metriche di accuratezza e perdita. Il notebook include anche la visualizzazione grafica dell'andamento di queste metriche per monitorare il processo di training.
+Segue la definizione e l'inizializzazione della rete \texttt{ImageToStringNet}, con la possibilità di configurare il numero di classi, il tasso di apprendimento e il dropout. Viene impostato il ciclo di addestramento: per ogni epoca, il modello viene allenato sui dati di training e valutato su quelli di validazione, con il calcolo delle metriche di accuracy e loss. Il notebook include anche la visualizzazione grafica dell'andamento di queste metriche per monitorare il processo di training.
 
 Al termine dell'addestramento, il modello migliore viene salvato e testato su un insieme di dati separato, per valutare le prestazioni finali. Sono inoltre presenti sezioni dedicate all'analisi qualitativa dei risultati, con esempi di immagini classificate correttamente e casi di errore, utili per identificare possibili miglioramenti.
 
 \subsection{ImageToStringNet.py}
-Il file \texttt{ImageToStringNet.py} contiene l’implementazione della rete neurale convoluzionale (CNN) utilizzata per la classificazione dei caratteri segmentati discussa nel Capitolo~\ref{cap:modello}. La classe principale, \texttt{ImageToStringNet}, estende \texttt{torch.nn.Module}: sono presenti i blocchi convoluzionali con le relative funzioni di attivazione, operazioni di pooling e dropout per la regolarizzazione. Dopo la parte convoluzionale, le feature vengono appiattite e passate a layer fully-connected che producono l’output finale. Il numero di classi e il tasso di dropout sono parametri configurabili. 
+Il file \texttt{ImageToStringNet.py} contiene la classe che implementa la rete neurale convoluzionale (CNN) utilizzata per la classificazione dei caratteri estratti, discussa nel Capitolo~\ref{cap:modello}. 
+
+Il costruttore della classe \texttt{ImageToStringNet} definisce l'architettura della rete, ed è suddiviso in due moduli principali:
+\begin{itemize}
+    \item \textbf{Feature Extraction}: implementa i due blocchi convoluzionali, dove ciascuno consiste di convoluzione, max pooling e ReLU.
+    \item \textbf{Classifier}: prende in input le feature provenienti dal modulo convoluzionale e le elabora attraverso la rete di tre layer fully connected dove i primi due utilizzano dropout per prevenire l'overfitting seguite da ReLU e l'ultimo layer di output mappa gli 84 neuroni finale al numero di classe possibili.
+\end{itemize}
+
+Nel metodo \texttt{forward}, viene definito il flusso dell'input attraverso la rete, l'immagine viene processata dal modulo \texttt{feature$\_$extractor} restituendo un tensore che viene appiattito e vengono concatenati i due margini superiori e inferiori, infine viene passato al modulo \texttt{classifier} che produce l'output finale.
 
 \subsection{Notebook per Evaluation}
 I notebook \texttt{evaluation\_english\_words.ipynb} ed \\  \texttt{evaluation\_random\_words.ipynb} sono dedicati alla valutazione delle prestazioni del modello su due tipologie di dataset differenti. 
@@ -88,4 +97,3 @@ Rispettivamente nel primo notebook, vengono utilizzate immagini di parole prese 
 Nel secondo, la procedura è analoga ma il dataset di test è composto da parole generate casualmente, senza un significato semantico. Questo permette di valutare la robustezza del modello anche su sequenze di caratteri non presenti nel vocabolario, evidenziando eventuali limiti nella generalizzazione.
 
 Entrambi i notebook includono visualizzazione dei risultati, analisi degli errori e confronti tra le prestazioni sui diversi dataset.
-
