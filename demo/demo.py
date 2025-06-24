@@ -63,7 +63,6 @@ with gr.Blocks(css=custom_css) as demo:
             gr.Markdown("# 3. OCR")
             output_text = gr.Textbox(lines=10, interactive=False, elem_id="output_text_area")
 
-    # Collegamenti ai pulsanti
     btn_submit.click(fn=process_image, inputs=[img_input], outputs=[output_img, output_text])
 
 if __name__ == "__main__":
