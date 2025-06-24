@@ -74,7 +74,7 @@ La cartella \emph{src} contiene i file principali per l'addestramento, la valuta
 \subsection{main.ipynb}
 Il notebook \texttt{main.ipynb} implementa l'intero workflow di addestramento e valutazione del modello. Viene definita la classe \texttt{DigitDataset} che consente di gestire il dataset facilmente, dopo opportune trasformazioni, all'interno della pipeline di addestramento e valutazione in PyTorch.
 
-Una volta impostata la dimensione del batch per l'addestramento, vengono definite le trasformazioni da applicare alle immagini ovvero conversione in tensori e normalizzazione. Viene suddisviso il dataset in training e test separando i font, garantendo che quelli utilizzati per il test non siano mai presenti nell'addestramento. I dati vengono poi caricati in memoria tramite i \texttt{DataLoarder} di PyTorch, che gestiscono automaticamente il batching e lo shuffle. Viene inizializzata la rete neurale implementata in \texttt{ImageToStringNet.py} e definita la funzione di loss e l'ottimizzatore SGD. Viene inoltre utilizzato un modulo di logger per TensorBoard, per monitorare visivamente un batch di immagini, salvare la struttura del modello, e le embedding delle immagini.
+Una volta impostata la dimensione del batch per l'addestramento, vengono definite le trasformazioni da applicare alle immagini ovvero conversione in tensori e normalizzazione. Viene suddiviso il dataset in training, validation e test separando i font, garantendo che quelli utilizzati per il test non siano mai presenti nell'addestramento. I dati vengono poi caricati in memoria tramite i \texttt{DataLoader} di PyTorch, che gestiscono automaticamente il batching e lo shuffle. Viene inizializzata la rete neurale implementata in \texttt{ImageToStringNet.py} e definita la funzione di loss Cross Entropy e l'ottimizzatore SGD. Viene inoltre utilizzato un modulo di logger per TensorBoard, per monitorare visivamente un batch di immagini, salvare la struttura del modello, le embedding delle immagini, la loss e l'accuracy.
 
 Per l'addestramento, il flusso è diviso in varie fasi:
 \begin{itemize}
@@ -85,9 +85,9 @@ Per l'addestramento, il flusso è diviso in varie fasi:
     \item \textbf{Ciclo di addestramento ed epoche:} il modello viene addestrato per un numero definito di epoche.
     \item \textbf{Salvataggio dei pesi:} al termine di ogni configurazione, i pesi aggiornati vengono salvati.
  \end{itemize}
-Le celle succesive del notebook sono dedicati alla valutazione del modello. Per ogni batch nel set di test, vengono calcolate e stampate la loss media, l'accuracy media, precision, recall e F1-score mantenendo la stessa importanza per tutte le classi.
+Le celle successive del notebook sono dedicate alla valutazione del modello, che viene effettuata solo dopo aver trovato i migliori parametri (\texttt{exps5}). Per ogni batch nel set di test, vengono calcolate e stampate la loss media, l'accuracy media, precision, recall e F1-score.
 
-Infine, vengono raccolti tutti i dati di test unendo tutti i batch, si fa una sola predizione su tutto il dataset, usando il modello e si crea un grafico che confronta le predizioni del modello con le etichette vere visualizzato in TensorBoard. 
+Dopo aver uniformato le etichette predette per renderle case-insensitive, si calcolano le curve precision-recall per ciascuna classe salvandole su TensorBoard. Infine viene calcolata la matrice di confusione per valutare la distribuzione degli errori del modello.
 \subsection{ImageToStringNet.py}
 Il file \texttt{ImageToStringNet.py} contiene la classe che implementa la rete neurale convoluzionale (CNN) utilizzata per la classificazione dei caratteri estratti, discussa nel Capitolo~\ref{cap:modello}. 
 
