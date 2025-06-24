@@ -1,4 +1,6 @@
 \chapter{Esperimenti}
+\section*{Setup testing}
+\textcolor{red}{INTRO su come è avvenuto il test (for train validation)}
 \section{Exp-1}
 \section{Exp-2}
 \section{Exp-3}
@@ -21,7 +23,7 @@ Le curve Precision-Recall (PR) consentono di analizzare il bilanciamento tra \em
 \subsubsection*{Risultati}
 In Figura~\ref{fig:pr_curves} sono riportate le curve per un sottoinsieme rappresentativo di classi non confondibili.
 
-\textcolor{red}{INSERIRE quelle nuove}:
+\textcolor{red}{INSERIRE quelle nuove (dollaro, Q, T)}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -47,7 +49,7 @@ Nel complesso, il modello mostra buone prestazioni, con curve PR ampie e stabili
 
 Tuttavia, alcune classi risultano più problematiche. Come visibile in Figura~\ref{fig:pr-confondibili}.
 
-\textcolor{red}{INSERIRE quelle nuove}:
+\textcolor{red}{INSERIRE quelle nuove (c, v, w)}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -70,7 +72,7 @@ Tuttavia, alcune classi risultano più problematiche. Come visibile in Figura~\r
 \end{figure}
 
 Per valutare l'impatto della distinzione tra maiuscole e minuscole, è stata ripetuta l'analisi ignorando il case. Come mostrato in Figura~\ref{fig:pr-ignore}, l'area sotto la curva migliora sensibilmente, suggerendo che una parte consistente degli errori è dovuta a una difficoltà del modello nel distinguere il case piuttosto che a un'incapacità di riconoscere la forma del carattere.
-\textcolor{red}{INSERIRE quelle nuove}:
+\textcolor{red}{INSERIRE quelle nuove (c, v, w)}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -92,12 +94,12 @@ Per valutare l'impatto della distinzione tra maiuscole e minuscole, è stata rip
     \label{fig:pr-ignore}
 \end{figure}
 
+\textcolor{red}{INSERIRE caso particolare di [o con lo zero, i con 1]}:
 Questi risultati suggeriscono che, pur in presenza di buone prestazioni globali, il modello potrebbe beneficiare delle euristiche di post-processing.
 
 
 \subsection{Matrice di confusione}
 La matrice di confusione aggregata a livello di carattere, mostrata in Figura~\ref{fig:confusion_matrix}, offre una panoramica dettagliata sugli errori di classificazione del modello. Ogni cella \((i, j)\) della matrice rappresenta il numero di volte in cui un carattere \(i\) è stato classificato dal modello come appartenente alla classe \(j\).
-\textcolor{red}{METTERE QUELLE NUOVE E RITAGLIATE BENE}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.65\textwidth]{images/confusion_matrix.png}
