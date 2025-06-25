@@ -1,11 +1,70 @@
 \chapter{Esperimenti}
 \section*{Setup testing}
-\textcolor{red}{INTRO su come è avvenuto il test (for train validation)}
-\section{Exp-1}
-\section{Exp-2}
-\section{Exp-3}
-\section{Exp-4}
-\section{Exp-5}
+Come anticipato precedentemente, il modello scelto ha un'architettura simile a quella di LeNet-5. Trattandosi di un task di classificazione vicino a quello del riconoscimento di cifre scritte a mano, la scelta di un'architettura ispirata a LeNet-5 è stata naturale, essendo consolidata per questo tipo di problemi.
+Sono state comunque effettuate delle modifiche rispetto alla classica architettura sopra citata, sia per adattarla alle features del nostro task di classificazione (che prevedono un paio di input in più), sia per poter ottenere risultati migliori in fase di training (aggiungendo un paio di layer di dropout).
+\\
+Per poter ottenere la miglior combinazioni di iperparametri, sono stati effettuati diversi esperimenti, variando \emph{learning rate}, \emph{batch size}, \emph{dropout rate}, \emph{momentum} e \emph{numero di epoche}.
+Per ognuna delle varianti negli iperparametri nella fase di training, viene generato un log TensorBoard che contiene le coppe di \emph{Loss} e \emph{Accuracy} in entrambi i dataset di training e validation. Inoltre, vengono salvati i pesi al termine delle epoche, utile per poterli ricaricare successivamente.
+Di seguito vengono evidenziati gli esperimenti effettuati.
+
+\section{Exps 1}
+Il primo esperimento prevede l'iterazione di una griglia di parametri presenti all'interno di un file di configurazione. In particolare, la griglia prevede tutte le triple dei seguenti parametri nei corrispettivi range:
+\begin{itemize}
+    \item \textbf{Learning rate}: \{0.01, 0.001, 0.005, 0.0001, 0.0005\}
+    \item \textbf{Dropout rate}: \{0.2, 0.3, 0.4, 0.5\}
+    \item \textbf{Momentum}: \{0, 0.5, 0.9\}
+\end{itemize}
+
+Essendo un modello piuttosto piccolo, è stato ritenuto opportuno impostare una batch size di \textbf{2560}, garantendo un calcolo del gradiente più preciso comparato a una batch size piccola. Per semplicità, il numero di epoche è fissato a 50.
+
+Questo approccio di \emph{grid search}, per quanto semplice, potrebbe già restituire dei risultati approssimativi sui range più opportuni per risolvere il problema, rendendo possibile ulteriori esperimenti nei range vicini alla tripla migliore. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/exps1_loss.png}
+    \caption{Loss Exps 1}
+    \label{fig:exps1_loss}
+\end{figure}
+
+Durante la fase di training si è notato come i tempi di training siano dilatati, rendendo questo approccio inefficiente. Inoltre, a colpo d'occhio, durante l'iterazione dei vari iperparametri, si è notato come le prestazioni del modello fossero parecchio scadenti. Qualche training terminava in overfitting evidente, mentre altri sembravano non convergere entro le 50 epoche.
+
+Per queste ragioni, senza ultimare il training con tutte le permutazioni, si è preferito procedere per via iterativa, come approfondito nella sezione successiva.
+
+\section{Exps 2}
+
+La soluzione più efficiente per ottimizzare il flusso precedentemente configurato si è rilevato essere un processo iterativo con l'intervento umano che regola gli iperparametri più opportuni man mano che gli esperimenti avvengono.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/exps2_loss.png}
+    \caption{Loss Exps 2}
+    \label{fig:exps1_loss}
+\end{figure}
+
+Il secondo esperimento evidenzia come, nonostante venga variato il dropout, il fenomeno di overfitting rimanga persistente.
+
+Questo è probabilmente dovuto alla batch size parecchio grande, non consentendo di avere un grado di regolarizzazione sufficiente alto.
+
+
+\section{Exps 3}
+
+Per ovviare il problema della precedente sperimentazione, si è deciso di ridurre la batch size a \textbf{256}, consentendo di aumentare la regolarizzazione del modello.
+
+Inoltre, un ulteriore tentativo di migliorare il modello si è configurato nella scelta di andare a riutilizzare i migliori pesi man mano che i parametri vengono cambiati. Questo consente di utilizzare un learning rate più basso quando in prossimità del minimo locale.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/exps3_loss.png}
+    \caption{Loss Exps 3}
+    \label{fig:exps1_loss}
+\end{figure}
+
+I tentativi mostrano uno scarso risultato nel combattere la varianza esibita dalle curve di train e loss.
+
+
+\section{Exps 4 e 5}
+
+
 
 \section{Valutazioni}
 \textcolor{red}{INSERIRE intro sul fatto che abbiamo valutato singoli char e frasi}:
