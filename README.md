@@ -12,4 +12,14 @@ Realizzato da **Matteo Galletta**, **Marco Gionfriddo** & **Kevin Speranza**.
 
 A.A. 2024/2025.
 
+### Esecuzione
+#### demo
+```
+cd demo
+pip install -r requirements.txt
+python demo.py
+```
+
+#### notebooks
+All'interno di ogni notebook sono presenti all'inizio le opportune installazioni
 
