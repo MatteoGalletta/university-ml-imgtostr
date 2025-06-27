@@ -131,10 +131,10 @@ Il file \texttt{ImageToStringNet.py} contiene la classe che implementa la rete n
 Il costruttore della classe \texttt{ImageToStringNet} definisce l'architettura della rete, ed è suddiviso in due moduli principali:
 \begin{itemize}
     \item \textbf{Feature Extractor}: implementa i due blocchi convoluzionali, dove ciascuno consiste di convoluzione, max pooling e ReLU.
-    \item \textbf{Classifier}: prende in input le feature provenienti dal \texttt{feature\_extractor} e le elabora attraverso la rete di tre layer fully connected dove i primi due utilizzano dropout per prevenire l'overfitting seguite da ReLU e l'ultimo layer di output mappa gli 84 neuroni finali al numero di classi possibili.
+    \item \textbf{Classifier}: prende in input le feature provenienti dal \texttt{feature\_extractor} e le elabora attraverso la rete di tre layer fully connected con ReLU, dropout, per prevenire l'overfitting, e un ultimo layer softmax che mappa gli 84 neuroni finali al numero di classi possibili.
 \end{itemize}
 
-Nel metodo \texttt{forward}, viene definito il flusso dell'input attraverso la rete, l'immagine viene processata dal modulo \texttt{feature$\_$extractor} restituendo un tensore che viene appiattito e vengono concatenati i due margini superiori e inferiori, infine viene passato al modulo \texttt{classifier} che produce l'output finale.
+Nel metodo \texttt{forward}, viene definito il flusso dell'input attraverso la rete. L'immagine viene processata dal modulo \texttt{feature$\_$extractor} restituendo un tensore che viene appiattito, per poi effettuare la concatenazione dei due margini (superiore e inferiore). Infine le features vengono passate al modulo \texttt{classifier}, che produce l'output finale.
 
 \subsection*{Notebook per Evaluation}
 I notebook \texttt{evaluation\_english\_words.ipynb} ed \\  \texttt{evaluation\_random\_words.ipynb} sono dedicati alla valutazione delle prestazioni del modello sulle due varianti del dataset degli screenshot. 

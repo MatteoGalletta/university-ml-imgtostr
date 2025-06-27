@@ -4,7 +4,7 @@ Come anticipato precedentemente, il modello scelto ha un'architettura simile a q
 Sono state comunque effettuate delle modifiche rispetto alla classica architettura sopra citata, sia per adattarla alle features del nostro task di classificazione (che prevedono un paio di input in più), sia per poter ottenere risultati migliori in fase di training (aggiungendo un paio di layer di dropout).
 \\
 Per poter ottenere la miglior combinazioni di iperparametri, sono stati effettuati diversi esperimenti, variando \emph{learning rate}, \emph{batch size}, \emph{dropout rate}, \emph{momentum} e \emph{numero di epoche}.
-Per ognuna delle varianti negli iperparametri nella fase di training, viene generato un log TensorBoard che contiene le coppe di \emph{Loss} e \emph{Accuracy} in entrambi i dataset di training e validation. Inoltre, vengono salvati i pesi al termine delle epoche, utile per poterli ricaricare successivamente.
+Per ognuna delle varianti negli iperparametri nella fase di training, viene generato un log TensorBoard che contiene le coppie di \emph{Loss} e \emph{Accuracy} in entrambi i dataset di training e validation. Inoltre, vengono salvati i pesi al termine delle epoche, utile per poterli ricaricare successivamente.
 Di seguito vengono evidenziati gli esperimenti effettuati.
 
 \section{Exps 1}
@@ -15,9 +15,9 @@ Il primo esperimento prevede l'iterazione di una griglia di parametri presenti a
     \item \textbf{Momentum}: \{0, 0.5, 0.9\}
 \end{itemize}
 
-Essendo un modello piuttosto piccolo, è stato ritenuto opportuno impostare una batch size di \textbf{2560}, garantendo un calcolo del gradiente più preciso comparato a una batch size piccola. Per semplicità, il numero di epoche è fissato a 50.
+Essendo un modello piuttosto piccolo, è stato ritenuto opportuno impostare una batch size di \textbf{2560}, garantendo un calcolo del gradiente più preciso comparato a una batch size piccola e sfruttando l'elaborazione parallela della GPU utilizzata. Per semplicità, il numero di epoche è fissato a 50.
 
-Questo approccio di \emph{grid search}, per quanto semplice, potrebbe già restituire dei risultati approssimativi sui range più opportuni per risolvere il problema, rendendo possibile ulteriori esperimenti nei range vicini alla tripla migliore. 
+Questo approccio di \emph{grid search}, per quanto semplice, potrebbe già restituire dei risultati approssimativi sui range più opportuni per risolvere il problema, rendendo possibile ricercare ulteriori iperparametri nei range vicini alla tripla migliore. 
 
 \begin{figure}[htbp]
     \centering
@@ -26,7 +26,7 @@ Questo approccio di \emph{grid search}, per quanto semplice, potrebbe già resti
     \label{fig:exps1_loss}
 \end{figure}
 
-Durante la fase di training si è notato come i tempi di training siano dilatati, rendendo questo approccio inefficiente. Inoltre, a colpo d'occhio, durante l'iterazione dei vari iperparametri, si è notato come le prestazioni del modello fossero parecchio scadenti. Qualche training terminava in overfitting evidente, mentre altri sembravano non convergere entro le 50 epoche.
+Durante la fase di training si è notato come i tempi siano dilatati, rendendo questo approccio inefficiente. Inoltre, a colpo d'occhio, durante l'iterazione dei vari iperparametri, si è notato come le prestazioni del modello fossero parecchio scadenti. Qualche training terminava in overfitting evidente, mentre altri sembravano non convergere entro le 50 epoche.
 
 Per queste ragioni, senza ultimare il training con tutte le permutazioni, si è preferito procedere per via iterativa, come approfondito nella sezione successiva.
 
@@ -43,7 +43,7 @@ La soluzione più efficiente per ottimizzare il flusso precedentemente configura
 
 Il secondo esperimento evidenzia come, nonostante venga variato il dropout, il fenomeno di overfitting rimanga persistente.
 
-Questo è probabilmente dovuto alla batch size parecchio grande, non consentendo di avere un grado di regolarizzazione sufficiente alto.
+Questo è probabilmente dovuto alla batch size parecchio grande, non consentendo di avere un grado di regolarizzazione sufficientemente alto.
 
 
 \section{Exps 3}
@@ -64,8 +64,8 @@ I tentativi mostrano uno scarso risultato nel combattere la varianza esibita dal
 
 \section{Exps 7}
 
-Ulteriori tentativi di miglioramento non hanno miglioramenti nella risoluzione del problema di overfitting. In compenso, al settimo esperimento, l'accuracy sul validation set è migliorata, raggiungendo un valore di circa l'82\%.
-La principale ragione di unoverfitting così evidente è probabilmente dovuta all'ambiguità dei dati e dalle inconsistente nel dataset che rendono impossibile, agli occhi del modello, la corretta distinzione tra i caratteri confondibili, come evidenziato nella sezione apposita. Per questo motivo, per individuare il termine del training ci si è basati sull'accuratezza del validation set, piuttosto che sulla curva di loss.
+Ulteriori tentativi di miglioramento non hanno mostrato progressi nella risoluzione del problema di overfitting. In compenso, al settimo esperimento, l'accuracy sul validation set è migliorata, raggiungendo un valore di circa l'82\%.
+La principale ragione di un overfitting così evidente è probabilmente dovuta all'ambiguità dei dati e dalle inconsistenze nel dataset che rendono impossibile, agli occhi del modello, la corretta distinzione tra i caratteri confondibili, come evidenziato nella sezione apposita. Per questo motivo, per individuare il termine del training ci si è basati sull'accuratezza del validation set, piuttosto che sulla curva di loss.
 
 \begin{figure}[htbp]
     \centering
@@ -90,7 +90,7 @@ Il modello finale prevede l'utilizzo di una \textbf{batch size di 16}, un \textb
 Una volta fissati i pesi ottimali del modello, è stata eseguita la valutazione delle prestazioni sul set di test. Per analizzare in modo più approfondito il comportamento del modello, la valutazione è stata condotta sia a livello di singolo carattere che a livello di stringa.
 
 \subsection{Valutazione caratteri}
-La valutazione sui singoli caratteri si articolano in diverse analisi:
+La valutazione sui singoli caratteri si articola in diverse analisi:
 \begin{itemize}
     \item Analisi score
     \item Curve Precision-Recall
@@ -229,7 +229,7 @@ Come si può osservare in Figura~\ref{fig:confusion_matrices_comparison}(a), la 
 Analizzando la matrice case-insensitive mostrata in Figura~\ref{fig:confusion_matrices_comparison}(b), si osserva una riduzione significativa degli errori di classificazione, confermando quanto discusso nella Sezione~\ref{sec:pr_curves}.
 
 
-Nel repository del progetto sono disponibili le matrici di confusione completa sotto forma di report HTML.
+Nel repository del progetto sono disponibili le matrici di confusione complete sotto forma di report HTML.
 
 \subsection{Valutazione parole}
 \label{sec:valutazione-stringhe}
@@ -306,8 +306,8 @@ Per una valutazione più dettagliata, sono state considerate le seguenti variant
 \begin{itemize}
     \item \textbf{Accuracy case sensitive (CS)}: confronto rigoroso che distingue tra maiuscole e minuscole;
     \item \textbf{Accuracy case insensitive (CI)}: confronto che ignora le differenze tra maiuscole e minuscole, utile per valutare la capacità di distinguere caratteri simili o confondibili;
-    \item \textbf{Accuracy case sensitive senza spazi (CSNS)}: confronto che ignora gli spazi ma distingue tra maiuscole e minuscole, utile per valutare la capacità di riconoscimento senza considerare errori di spaziatura.
-    \item \textbf{Accuracy case insensitive senza spazi (CINS)}: confronto che ignora sia il case sia gli spazi, utile per gestire eventuali errori di segmentazione o spaziatura
+    \item \textbf{Accuracy case sensitive senza spazi (CSNS)}: confronto che ignora gli spazi ma distingue tra maiuscole e minuscole, utile per valutare la capacità di riconoscimento senza considerare errori di spaziatura;
+    \item \textbf{Accuracy case insensitive senza spazi (CINS)}: confronto che ignora sia il case sia gli spazi, utile per gestire eventuali errori di segmentazione o spaziatura.
 
 \end{itemize}
 
@@ -328,5 +328,5 @@ La tabella seguente riporta i valori di string accuracy per ciascuna casistica, 
 \end{table}
 
 Gran parte degli errori riscontrati deriva dalle euristiche utilizzate nel post-processing, in particolare quelle legate alla generazione degli spazi tra le parole.  
-Inoltre, per capire l'impatto delle lettere visivamente simili, come lo zero rispetto alla lettera “O” o la “I” rispetto alla “L”, abbiamo definito una versione estesa della metrica CINS, indicata come \textbf{CINS*}, che considera corretti anche queste confusioni.  
+Inoltre, per capire l'impatto delle lettere visivamente simili, come lo zero rispetto alla lettera “O” o la “I” rispetto alla “L”, abbiamo definito una versione estesa della metrica CINS, indicata come \textbf{CINS*}, che considera corrette anche queste confusioni.  
 Come si osserva nella Tabella~\ref{tab:string_accuracy_stats}, l'inclusione di questi casi comporta un ulteriore miglioramento della string accuracy.
