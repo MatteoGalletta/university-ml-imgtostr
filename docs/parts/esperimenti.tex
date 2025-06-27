@@ -67,14 +67,36 @@ I tentativi mostrano uno scarso risultato nel combattere la varianza esibita dal
 
 
 \section{Valutazioni}
-\textcolor{red}{INSERIRE intro sul fatto che abbiamo valutato singoli char e frasi}:
-
-\subsection{Singoli caratteri}
-La valutazione sui singoli caratteri si articola in due diverse analisi:
+La valutazione sui singoli caratteri si articolano in diverse analisi:
 \begin{itemize}
+    \item Analisi score
     \item Curve Precision-Recall
     \item Matrice di confusione
 \end{itemize}
+
+\subsubsection*{Analisi degli Score}
+
+Durante la fase di training, abbiamo monitorato l'\textit{accuracy} e la \textit{loss}. Al termine dell'addestramento, una volta fissati i pesi ottimali, abbiamo valutato le prestazioni del modello sul set di test. Per le migliori run di ciascun esperimento, sono state calcolate anche le metriche di \textbf{precision}, \textbf{recall} e \textbf{F1-score}, oltre all'\textbf{accuracy}, al fine di ottenere una valutazione più completa del comportamento del modello.
+
+I risultati ottenuti per ciascuno dei cinque esperimenti condotti sono riassunti nella tabella seguente:
+
+\subsubsection*{Risultati}
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c|c|c|c}
+\textbf{Esperimento} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
+\hline
+1 & 0.85 & 0.82 & 0.80 & 0.81 \\
+2 & 0.86 & 0.83 & 0.82 & 0.82 \\
+3 & 0.88 & 0.85 & 0.84 & 0.84 \\
+4 & 0.89 & 0.86 & 0.85 & 0.85 \\
+5 & \textbf{0.91} & \textbf{0.89} & \textbf{0.88} & \textbf{0.88} \\
+\end{tabular}
+\caption{Metriche di valutazione sui cinque esperimenti.}
+\label{tab:score_analysis}
+\end{table}
+
+Dall'analisi della tabella si può osservare come l'esperimento 5 abbia ottenuto le migliori prestazioni su tutte le metriche considerate.
 
 \subsubsection*{Curve Precision-Recall}
 Le curve Precision-Recall (PR) consentono di analizzare il bilanciamento tra \emph{precision} e \emph{recall} nelle predizioni del modello, mostrando quanto esso riesca a mantenere alta la precisione man mano che aumenta la quantità di caratteri correttamente riconosciuti. Un indicatore sintetico della qualità complessiva è l'area sotto la curva (AUC-PR), che risulta tanto più elevata quanto migliore è la capacità del modello di conciliare accuratezza e sensibilità nel riconoscimento dei caratteri.
@@ -82,23 +104,22 @@ Le curve Precision-Recall (PR) consentono di analizzare il bilanciamento tra \em
 \subsubsection*{Risultati}
 In Figura~\ref{fig:pr_curves} sono riportate le curve per un sottoinsieme rappresentativo di classi non confondibili.
 
-\textcolor{red}{INSERIRE quelle nuove (dollaro, Q, T)}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pr_curve1.png}
-        \caption{PR-curve \{'\}}
+        \caption{PR-curve \{s\}}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pr_curve2.png}
-        \caption{PR-curve \{T\}}
+        \caption{PR-curve \{v\}}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pr_curve3.png}
-        \caption{PR-curve \{Y\}}
+        \caption{PR-curve \{w\}}
     \end{subfigure}
     \caption{PR-curves per caratteri non confondibili}
     \label{fig:pr_curves}
@@ -108,30 +129,28 @@ Nel complesso, il modello mostra buone prestazioni, con curve PR ampie e stabili
 
 Tuttavia, alcune classi risultano più problematiche. Come visibile in Figura~\ref{fig:pr-confondibili}.
 
-\textcolor{red}{INSERIRE quelle nuove (c, v, w)}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pr_curve_conf1.png}
-        \caption{PR-curve \{s\}}
+        \caption{PR-curve \{s/S\}}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pr_curve_conf2.png}
-        \caption{PR-curve \{c\}}
+        \caption{PR-curve \{w/W\}}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pr_curve_conf3.png}
-        \caption{PR-curve \{v\}}
+        \caption{PR-curve \{w/W\}}
     \end{subfigure}
     \caption{PR-curves per caratteri confondibili}
     \label{fig:pr-confondibili}
 \end{figure}
 
 Per valutare l'impatto della distinzione tra maiuscole e minuscole, è stata ripetuta l'analisi ignorando il case. Come mostrato in Figura~\ref{fig:pr-ignore}, l'area sotto la curva migliora sensibilmente, suggerendo che una parte consistente degli errori è dovuta a una difficoltà del modello nel distinguere il case piuttosto che a un'incapacità di riconoscere la forma del carattere.
-\textcolor{red}{INSERIRE quelle nuove (c, v, w)}:
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.32\textwidth}
@@ -153,30 +172,38 @@ Per valutare l'impatto della distinzione tra maiuscole e minuscole, è stata rip
     \label{fig:pr-ignore}
 \end{figure}
 
-\textcolor{red}{INSERIRE caso particolare di [o con lo zero, i con 1]}:
-Questi risultati suggeriscono che, pur in presenza di buone prestazioni globali, il modello potrebbe beneficiare delle euristiche di post-processing.
+Infine, un esempio emblematico è riportato in Figura~\ref{fig:pr_strange}, dove, nonostante l'ignoramento del case, le prestazioni del modello rimangono insoddisfacenti.
 
-
-\subsection{Matrice di confusione}
-La matrice di confusione aggregata a livello di carattere, mostrata in Figura~\ref{fig:confusion_matrix}, offre una panoramica dettagliata sugli errori di classificazione del modello. Ogni cella \((i, j)\) della matrice rappresenta il numero di volte in cui un carattere \(i\) è stato classificato dal modello come appartenente alla classe \(j\).
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.65\textwidth]{images/confusion_matrix.png}
+    \includegraphics[width=0.65\textwidth]{images/pr_strange.png}
+    \caption{PR-curve \{o\}}
+    \label{fig:pr_strange}
+\end{figure}
+
+In assenza di un modello che tenga conto del contesto semantico, risulta difficile discriminare correttamente questi caratteri.
+
+\subsection{Matrice di Confusione}
+
+La matrice di confusione fornisce una rappresentazione dettagliata degli errori di classificazione commessi dal modello. Ogni cella \((i, j)\) della matrice indica il numero di volte in cui un carattere appartenente alla classe \(i\) è stato classificato come \(j\).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/confusion_matrix.png}
     \caption{Matrice di confusione}
     \label{fig:confusion_matrix}
 \end{figure}
 
-Si osserva come la diagonale principale della matrice sia in gran parte ben marcata, indicando una prevalenza di classificazioni corrette. Le deviazioni più evidenti dalla diagonale si concentrano invece in corrispondenza di coppie di caratteri visivamente simili, che il modello tende a confondere con maggiore frequenza.
+Come si può osservare in Figura~\ref{fig:confusion_matrix}, la diagonale principale della matrice è ben marcata, a indicare che la maggior parte delle predizioni corrisponde correttamente alla classe attesa. Le deviazioni più significative dalla diagonale si concentrano principalmente tra le classi confondibili.
 
-A tal proposito è stata creata un alternativa matrice di confusione che ignora il case, come mostrato in Figura~\ref{fig:confusion_matrix_case_insensitive}. Questa matrice evidenzia che molti errori sono dovuti a questa confusione.
+Analogamente a quanto fatto per le PR-curves, è stata condotta un'analisi ignorando il case. Come mostrato in Figura~\ref{fig:confusion_matrix_case_insensitive}, questa analisi evidenzia una riduzione significativa degli errori di classificazione, confermando che una parte consistente delle confusioni è attribuibile a questo tipo di confusioni.
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.65\textwidth]{images/confusion_matrix_case.png}
+    \includegraphics[width=0.5\textwidth]{images/confusion_matrix_case.png}
     \caption{Matrice di confusione ignorando il case}
     \label{fig:confusion_matrix_case_insensitive}
 \end{figure}
-
-Questa osservazione conferma la precedente analisi delle PR-curves riguardo i problemi con le classi confondibili.
 
 Nel repository del progetto sono disponibili le matrici di confusione completa sotto forma di report HTML.
 
@@ -189,37 +216,61 @@ Per l'analisi a livello di parola sono state adottate due metriche principali:
     \item String Accuracy.
 \end{enumerate}
 
-I calcoli sono stati effettuati sui dataset degli screenshot descritti nella \autoref{sec:dataset_screenshots}, che comprendono due tipologie di dati:
-\begin{itemize}
-    \item sequenze di 10 simboli casuali;
-    \item frasi di senso compiuto.
-\end{itemize}
-
 \subsection{Distanza di edit}
-
 La distanza di edit tra la parola riconosciuta e la parola ground-truth è stata calcolata per ciascun esempio, normalizzando il valore sulla lunghezza della parola.
 
-Di seguito si riporta una tabella con le statistiche principali (media, mediana e deviazione standard) della distanza di edit normalizzata, calcolate separatamente per i due dataset.
-
-\textcolor{red}{INSERIRE valori reali dopo fix errori}
+Di seguito si riporta una tabella con le statistiche principali della distanza di edit normalizzata, calcolate separatamente per i due dataset.
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{lccc}
+    \begin{tabular}{lcccc}
         \toprule
-        Dataset & Mean & Median & Std \\
+        Dataset                 & Min   & Max   & Mean  & Std   \\
         \midrule
-        Sequenze casuali & 0.00 & 0.00 & 0.00 \\
-        Frasi di senso compiuto & 0.00 & 0.00 & 0.00 \\
+        Stringhe casuali       & 0  & 41 & 5.42  & 22.04 \\
+        Stringhe inglesi & 0  & 2195 & 57.22  & 27521.79 \\
         \bottomrule
     \end{tabular}
     \caption{Statistiche della distanza di edit normalizzata per i due dataset}
     \label{tab:edit_distance_stats}
 \end{table}
 
-Dal confronto emerge che il modello si comporta meglio nel riconoscimento delle sequenze casuali rispetto alle frasi di senso compiuto. Ciò può essere dovuto a diversi fattori, tra cui:
+Da questi risultati emergono alcuni comportamenti anomali del modello, in particolare una marcata difficoltà nell'elaborazione di font molto sottili. Come evidenziato in Figura~\ref{fig:thin_fonts_bboxes}, il modello fatica a rilevare correttamente i tratti dei caratteri sottili, principalmente a causa dei bounding box. I riquadri generati in questi casi limite risultano spesso mal posizionati o incompleti, compromettendo i dato in ingresso e ostacolando la corretta interpretazione del carattere.
 
-\textcolor{red}{DIRE quale può essere il motivo}
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/thin_font1.png}
+        \caption{Immagine originale}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/thin_font1_preproc.png}
+        \caption{Bounding box errato}
+    \end{subfigure}
+
+    \caption{Esempi di immagini problematiche con font sottili e relativi errori nei bounding box.}
+    \label{fig:thin_fonts_bboxes}
+\end{figure}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Ground Truth} & \textbf{Output} \\
+        \hline
+        \texttt{PEj\%6DuZi8} & \texttt{[:.\ E-j\ :C:::\ :::\ [:::\ é...Z.\ !d} \\
+        \hline
+        \texttt{unzmu\#QRRu} & \texttt{é...\ eN.Z\ .-NP-N.\ é...@\ :::\textbackslash..\ [:\ [:\ é...} \\
+        \hline
+    \end{tabular}
+    \caption{Esempi di riconoscimenti errati generati dal modello.}
+    \label{tab:recognition_examples}
+\end{table}
+
+\textcolor{red}{INSERIRE analisi togliendo questi font????}
 
 \subsection{String Accuracy}
 La string accuracy è definita come la percentuale di stringhe riconosciute esattamente nella loro interezza:
@@ -227,7 +278,7 @@ La string accuracy è definita come la percentuale di stringhe riconosciute esat
     \mathrm{StringAccuracy} = \frac{\text{numero di stringhe perfettamente riconosciute}}{\text{numero totale di immagini}}.
 \]
 
-Per una valutazione più dettagliata, sono state considerate tre varianti di string accuracy, che tengono conto di diverse esigenze di confronto:
+Per una valutazione più dettagliata, sono state considerate le seguenti varianti di string accuracy, che tengono conto di diverse esigenze di confronto:
 
 \begin{itemize}
     \item \textbf{Accuracy case sensitive (CS)}: confronto rigoroso che distingue tra maiuscole e minuscole;
@@ -239,18 +290,35 @@ Per una valutazione più dettagliata, sono state considerate tre varianti di str
 
 La tabella seguente riporta i valori di string accuracy per ciascuna casistica, calcolati separatamente sui due dataset degli screenshot.
 
-\textcolor{red}{INSERIRE valori reali dopo fix errori}
-
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lcccc}
         \toprule
-        Dataset                 & CS & CI & CSNS & CINS \\
+        Dataset & CS & CI & CSNS & CINS \\
         \midrule
-        Sequenze casuali        & 0.00 & 0.00 & 0.00 & 0.00 \\
-        Frasi di senso compiuto & 0.00 & 0.00 & 0.00 & 0.00 \\
+        Stringhe casuali & 2.87 & 3.60 & 35.00 & 47.80 \\
+        Stringhe inglesi & 3.93 & 9.13 & 13.33 & 34.27 \\
         \bottomrule
     \end{tabular}
     \caption{String Accuracy per dataset e casistica di confronto}
     \label{tab:string_accuracy_stats}
+\end{table}
+
+Gran parte degli errori riscontrati deriva dalle euristiche utilizzate nel post-processing, in particolare quelle relative alla generazione degli spazi tra le parole.  
+Inoltre, è presente il problema delle lettere confondibili, come lo zero con la lettera “O” o la “I” con la “L”.  
+Abbiamo quindi alleggerito la metrica CINS, escludendo questo tipo di errori dal conteggio.  
+Come mostrato nella Tabella~\ref{tab:error_rates}, questa modifica consente una significativa riduzione del tasso di errore, in particolare nel caso delle stringhe casuali.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{lc}
+        \toprule
+        Dataset & CINS* \\
+        \midrule
+        Stringhe casuali & 53.00 \\
+        Stringhe inglesi & 39.47 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Percentuale di errori dovuti a lettere confondibili per dataset}
+    \label{tab:error_rates}
 \end{table}
