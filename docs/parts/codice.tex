@@ -126,7 +126,7 @@ Infine, alla fine di ogni epoca, i pesi del modello vengono salvati seguendo uno
 
 Le celle successive del notebook sono dedicate alla valutazione del modello, che viene effettuata solo dopo aver trovato i migliori parametri. la valuazione verrà approfondità nel capitolo~\ref{sec:valutazioni}.
 
-\subsection{ImageToStringNet.py}
+\subsection*{ImageToStringNet.py}
 Il file \texttt{ImageToStringNet.py} contiene la classe che implementa la rete neurale convoluzionale (CNN) utilizzata per la classificazione dei caratteri estratti, discussa nel Capitolo valutazioni~\ref{cap:modello}. 
 
 Il costruttore della classe \texttt{ImageToStringNet} definisce l'architettura della rete, ed è suddiviso in due moduli principali:
@@ -137,7 +137,7 @@ Il costruttore della classe \texttt{ImageToStringNet} definisce l'architettura d
 
 Nel metodo \texttt{forward}, viene definito il flusso dell'input attraverso la rete, l'immagine viene processata dal modulo \texttt{feature$\_$extractor} restituendo un tensore che viene appiattito e vengono concatenati i due margini superiori e inferiori, infine viene passato al modulo \texttt{classifier} che produce l'output finale.
 
-\subsection{Notebook per Evaluation}
+\subsection*{Notebook per Evaluation}
 I notebook \texttt{evaluation\_english\_words.ipynb} ed \\  \texttt{evaluation\_random\_words.ipynb} sono dedicati alla valutazione delle prestazioni del modello sulle due varianti del dataset degli screenshot. 
 
 In ogni notebook, per ciascuna immagine del dataset associato si esegue il riconoscimento del testo. I risultati ottenuti per ogni immagine vengono raccolti e usati per calcolare una serie di metriche approfondite nel capitolo di valutazione~\ref{sec:valutazioni}.
