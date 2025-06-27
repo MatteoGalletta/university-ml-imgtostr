@@ -21,13 +21,13 @@ class ImageToStringNet(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Dropout(p=dropout_rate),
             nn.Linear(16 * 4 * 4 + 2, 120),
             nn.ReLU(),
-
             nn.Dropout(p=dropout_rate),
+
             nn.Linear(120, 84),
             nn.ReLU(),
+            nn.Dropout(p=dropout_rate),
 
             nn.Linear(84, len(classes))
         )

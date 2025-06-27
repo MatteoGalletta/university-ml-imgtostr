@@ -62,9 +62,28 @@ Inoltre, un ulteriore tentativo di migliorare il modello si è configurato nella
 I tentativi mostrano uno scarso risultato nel combattere la varianza esibita dalle curve di train e loss.
 
 
-\section{Exps 4 e 5}
+\section{Exps 7}
+
+Ulteriori tentativi di miglioramento non hanno miglioramenti nella risoluzione del problema di overfitting. In compenso, al settimo esperimento, l'accuracy sul validation set è migliorata, raggiungendo un valore di circa l'82\%.
+La principale ragione di unoverfitting così evidente è probabilmente dovuta all'ambiguità dei dati e dalle inconsistente nel dataset che rendono impossibile, agli occhi del modello, la corretta distinzione tra i caratteri confondibili, come evidenziato nella sezione apposita. Per questo motivo, per individuare il termine del training ci si è basati sull'accuratezza del validation set, piuttosto che sulla curva di loss.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/exps7_loss.png}
+    \caption{Loss Exps 7}
+    \label{fig:exps7_loss}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/exps7_accuracy.png}
+    \caption{Accuracy Exps 7}
+    \label{fig:exps7_acc}
+\end{figure}
 
 
+
+Il modello finale prevede l'utilizzo di una \textbf{batch size di 16}, un \textbf{learning rate di 0.02}, un \textbf{dropout rate di 0.5} e un \textbf{momentum di 0.5}. Il numero di epoche è fissato a 15, ma il modello scelto ha mostrato il picco di accuratezza al termine della quarta epoca, prima che il fenomeno di overfitting si facesse evidente anche nella curva di accuracy.
 
 \section{Valutazioni}
 Una volta fissati i pesi ottimali del modello, è stata eseguita la valutazione delle prestazioni sul set di test. Per analizzare in modo più approfondito il comportamento del modello, la valutazione è stata condotta sia a livello di singolo carattere che a livello di stringa.

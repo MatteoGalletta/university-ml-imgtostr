@@ -12,9 +12,10 @@ class ImageToStringClassifier:
     # __MODEL_PATH = '../src/weights/model_weights.pth'
     # __MODEL_PATH = '../src/weights/model_weights_v2.pth'
     #__MODEL_PATH = '../src/weights/model_weights_v7.pth'
-    __MODEL_PATH = '../src/weights/exps5.pth'
+    # __MODEL_PATH = '../src/weights/exps5.pth'
+    __MODEL_PATH = '../src/weights/lr0.02_drop0.5_momentum0.5_4.pth'
 
-    __NET = ImageToStringNet(dropout_rate=0.2)
+    __NET = ImageToStringNet(dropout_rate=0.5)
 
     def __init__(self, image_uploaded):
 
