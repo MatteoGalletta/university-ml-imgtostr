@@ -8,7 +8,7 @@ In particolare, essendo l'algoritmo diviso in due fasi, avere due dataset distin
 I due dataset creati sono i seguenti:
 \begin{itemize}
 	\item \textbf{Dataset dei simboli singoli}: contiene immagini di singoli simboli, che consente di testare esclusivamente la fase di classificazione del singolo carattere.
-	\item \textbf{Dataset degli screenshot}:  contiene immagini di screenshot contenenti una sequenza di simboli casuali. Questo consente di testare la pipeline nella sua interezza, comprendendo sia la suddivisione in caratteri che la classificazione del singolo carattere.
+	\item \textbf{Dataset degli screenshot}:  contiene immagini di screenshot contenenti una sequenza di simboli casuali o frasi di senso compiuto. Questo consente di testare la pipeline nella sua interezza, comprendendo sia la suddivisione in caratteri che la classificazione del singolo carattere.
 \end{itemize}
 
 \section{Dataset dei simboli singoli}
@@ -28,7 +28,7 @@ Sono stati presi in considerazione 58 font differenti, ognuno con caratteristich
 
 È stata generata un'immagine per ogni simbolo, per ogni font. La dimensione considerata è di 28x28 pixel, in modo da essere compatibile con il modello di classificazione utilizzato nella fase 2.
 
-Per la generazione di ogni immagine è stato utilizzato Pillow, una libreria Python per la manipolazione delle immagini. Ogni immagine è stata generata con uno sfondo nero e il simbolo in bianco (con scala di grigi per i bordi). Per come vengono estratti i caratteri dall'immagine da classificare, è necessario che il simbolo nel dataset non abbia margini e che il suo bounding box coincida con il quadro dell'immagine. Per garantire questo vincolo, l'immagine viene inizialmente generata in un'immagine di dimensioni più grandi, successivamente il simbolo viene centrato all'interno dell'immagine e stampato con una dimensione del font arbitraria (grande abbastanza da far entrare il simbolo nel quadro). Dall'immagine viene dunque estratto un bounding box che viene poi ridimenzionato, in modo da ottenere un'immagine di dimensioni 28x28 pixel.
+Per la generazione di ogni immagine è stato utilizzato Pillow, una libreria Python per la manipolazione delle immagini. Ogni immagine è stata generata con uno sfondo nero e il simbolo in bianco (con scala di grigi per i bordi). Per come vengono estratti i caratteri dall'immagine da classificare, è necessario che il simbolo nel dataset non abbia margini e che il suo bounding box coincida con il quadro dell'immagine. Per garantire questo vincolo, il simbolo viene inizialmente generato in un'immagine di dimensioni più grandi, successivamente viene centrato all'interno del quadro e stampato con una dimensione del font arbitraria (grande abbastanza da far entrare il simbolo nel quadro). Dall'immagine viene dunque estratto un bounding box che viene poi ridimenzionato, in modo da ottenere un'immagine di dimensioni 28x28 pixel.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{images/dataset-symbols.png}
@@ -38,7 +38,7 @@ Per la generazione di ogni immagine è stato utilizzato Pillow, una libreria Pyt
 
 \subsection{Permutazioni di margini}
 
-Come menzionato precedentemente, il modello di classificazione utilizza, oltre al bounding box del simbolo, anche i margini superiore e inferiore del simbolo rispetto al bounding box globale dell'intera parola. Per questo motivo è necessario che il dataset contenga questa informazione per far sì che il modello possa apprendere le relazioni tra il simbolo e il bounding box globale.
+Come menzionato precedentemente, il modello di classificazione utilizza, oltre al bounding box del simbolo, anche i suoi margini superiore e inferiore rispetto al bounding box globale dell'intera parola. Per questo motivo è necessario che il dataset contenga questa informazione per far sì che il modello possa apprendere le relazioni tra il simbolo e il bounding box globale.
 \\ \\
 L'approccio utilizzato è il seguente, per ogni font:
 \begin{itemize}
@@ -51,7 +51,7 @@ L'approccio utilizzato è il seguente, per ogni font:
 
 Il dataset finale conterrà quindi un simbolo per ogni font, con le varie combinazioni di margini.  Nel caso dei font considerati, il dataset contiene un totale di 179292 tuple.
 
-È importante notare che a causa di questa ultima aggiunta il dataset dei simboli singoli non rimane perfettamente bilanciato: non tutte le classi (simboli) sono rappresentate dallo stesso numero di campioni. Ad esempio, le parentesi tonde (\texttt{(} e \texttt{)}) sono presenti con circa 600 campioni ciascuna, mentre il trattino (\texttt{-}) conta circa 5000 campioni.
+È importante notare che a causa di quest'ultima aggiunta il dataset dei simboli singoli non rimane perfettamente bilanciato: non tutte le classi (simboli) sono rappresentate dallo stesso numero di campioni. Ad esempio, le parentesi tonde (\texttt{(} e \texttt{)}) sono presenti con circa 600 campioni ciascuna, mentre il trattino (\texttt{-}) conta circa 5000 campioni.
 
 Il dataset è stato suddiviso in due sottoinsiemi: train e test. La suddivisione è stata effettuata secondo una proporzione 75\% per il training e 25\% per il test, necessario per la valutazione delle prestazioni del modello.
 
@@ -67,7 +67,7 @@ Il dataset si compone di una serie di cartelle, una per ogni font, contenenti le
 
 Il dataset degli screenshot è stato creato per testare l'intera pipeline, dalla suddivisione in caratteri alla classificazione del singolo carattere. Il suo unico scopo è quello di testare l'accuratezza della pipeline per poterne valutare le prestazioni. 
 
-Il dataset contiene immagini di screenshot contenenti una sequenza di 10 simboli casuali. In aggiunta ai simboli considerati nel dataset dei simboli singoli, sono stati aggiunti i caratteri "spazio" e "virgolette" (`"`), in modo da poter testare le euristiche relative al riconoscimento di questi caratteri.
+Il dataset contiene immagini di screenshot contenenti una stringa. In aggiunta ai simboli considerati nel dataset dei simboli singoli, sono stati aggiunti i caratteri "spazio" e "virgolette" (`"`), in modo da poter testare le euristiche relative al riconoscimento di questi caratteri.
 
 Per la generazione di ogni immagine viene utilizzato un approccio simile a quello utilizzato per il dataset dei simboli singoli. Viene utilizzato Pillow per generare gli screenshot sintetici, scegliando un font casuale e stampando al suo interno la sequenza di simboli da testare.
 Per aumentare la precisione delle metriche, vengono inoltre selezionati dei colori casuali per il testo e lo sfondo, in modo da simulare screenshot reali e verificare che le operazioni di pre-processing siano efficaci.

@@ -68,7 +68,7 @@ La cartella \emph{dataset} contiene il notebook \texttt{dataset.ipynb}, in cui s
 
 \subsection*{Dataset dei simboli singoli}
 Nella prima parte del notebook vengono definite le funzioni per generare automaticamente immagini sintetiche di lettere, variando font e margini \ref{sec:single_dataset}.  
-Segue una fase di normalizzazione delle immagini, in cui ciascuna immagine viene convertita in scala di grigi, ridimensionata e centrata su uno sfondo uniforme di 28x28 pixel.
+Segue una fase di normalizzazione delle immagini, in cui ciascuna immagine viene ridimensionata e centrata su uno sfondo uniforme di 28x28 pixel.
 
 Ad ogni generazione, le informazioni relative all'immagine prodotta — come il percorso, la label di ground truth e le informazioni sui margini — vengono registrate all'interno del file \texttt{dataset.txt}.
 A partire da questo file di testo, viene effettuata la suddivisione del dataset negli insiemi di training e test, rispettivamente pari al 75\% e al 25\%.
@@ -80,7 +80,7 @@ Nella seconda parte è presente la funzione incaricata di generare il dataset de
 Anche in questo caso, per ogni immagine generata viene prodotto un file di metadati compatibile con il \texttt{DataLoader}.
 
 \section{Demo}
-La cartella \emph{demo} contiene il file \texttt{demo.py}, che fornisce l'interfaccia per testare il modello descritta nel Capitolo \ref{cap:demo}. Lo script permette di caricare un'immagine, eseguire il preprocessing, la classificazione e visualizzare il risultato finale.
+La cartella \emph{demo} contiene il file \texttt{demo.py}, che fornisce l'interfaccia per testare il modello descritta nel Capitolo \ref{cap:demo}. Lo script permette di caricare un'immagine, eseguire il preprocessing, la classificazione, il postprocessing e visualizzare il risultato finale.
 
 \section{Src}
 La cartella \emph{src} contiene i file principali per l'addestramento, la valutazione e l'esecuzione del modello. In particolare:
@@ -106,9 +106,9 @@ Per l'addestramento, il flusso è diviso in varie fasi:
  \end{itemize}
 
 \subsubsection*{Gestione configurazioni}
-Le configurazioni da valutare vengono caricate da un file in formato \texttt{.json}, che specifica i parametri di addestramento da testare.  
-Ogni configurazione definisce, ad esempio, il tasso di apprendimento, il dropout e il valore di momentum. Per ciascuna configurazione viene istanziata una nuova rete neurale, inizializzata con il tasso di \texttt{dropout} specificato.  
-Successivamente, viene configurato un ottimizzatore \texttt{SGD} utilizzando i parametri indicati nella configurazione.  
+Le configurazioni da valutare vengono caricate da un file in formato \texttt{json} che specifica i parametri di addestramento da testare.  
+Ogni configurazione definisce, il learning rate, il dropout rate e il valore di momentum. Per ciascuna configurazione viene istanziata una nuova rete neurale, inizializzata con il tasso di \texttt{dropout} specificato.
+Successivamente, viene configurato un ottimizzatore \texttt{SGD} utilizzando i parametri indicati nella configurazione.
 Nel caso in cui siano già disponibili pesi pre-addestrati per una determinata configurazione, questi vengono caricati automaticamente prima dell'inizio del training.
 
 \subsubsection*{Logging Tensorboard}
@@ -118,11 +118,10 @@ Viene creato un writer che registra l'andamento della loss e dell'accuracy duran
 
 Per ogni epoca viene selezionato il \texttt{DataLoader} appropriato in base alla modalità corrente (training o validation).  
 Il modello esegue la classificazione dei dati in input e calcola il valore della funzione di loss.  
-Nel caso della fase di training, viene eseguita la backpropagation e l'ottimizzazione dei pesi.
 
 Al termine di ciascun batch, i risultati vengono loggati tramite il writer.
 
-Infine, alla fine di ogni epoca, i pesi del modello vengono salvati seguendo uno schema di denominazione standard, che incorpora i principali iperparametri della configurazione corrente.
+Infine, al termine di ogni epoca, i pesi del modello vengono salvati seguendo uno schema di denominazione standard, che incorpora i principali iperparametri della configurazione corrente.
 
 Le celle successive del notebook sono dedicate alla valutazione del modello, che viene effettuata solo dopo aver trovato i migliori parametri. la valuazione verrà approfondità nel capitolo~\ref{sec:valutazioni}.
 
