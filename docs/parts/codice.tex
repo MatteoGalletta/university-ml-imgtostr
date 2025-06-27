@@ -5,48 +5,41 @@
     \tikzstyle{selected}=[draw=red, fill=red!30]
     \tikzstyle{optional}=[dashed, fill=gray!50]
 
-    \begin{tikzpicture}[%
-      grow via three points={one child at (0.5,-0.68) and
-                             two children at (0.5,-0.71) and (0.5,-1.45)},
-      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
-
-      \node {university-ml-imgtostr/}
-        child { node {\textbf{core}/}
-            child { node {ImageToStringClassifier.py} }
-            child { node {ImageToStringPostprocessing.py} }
-            child { node {ImageToStringPreprocessing.py} }
-        }
-        child [missing] {}
-        child [missing] {}
-        child [missing] {}
-        child { node {\textbf{dataset}/}
-            child { node {dataset.ipynb} }
-                child { node {\textbf{digit\_dataset/}} }
-                child { node {\textbf{english\_words\_dataset/}} }
-                child { node {\textbf{words\_dataset/}} }
-        }
-        child [missing] {}
-        child [missing] {}
-        child [missing] {}
-        child [missing] {}
-        child { node {\textbf{demo}/}
-            child { node {demo.py} }
-        }
-        child [missing] {}
-        child { node {\textbf{src}/}
-            child { node {evaluation\_english\_words.ipynb} }
-            child { node {evaluation\_random\_words.ipynb} }
-            child { node {ImageToStringNet.py} }
-            child { node {main.ipynb} }
-        }
-        child [missing] {}
-        child [missing] {}
-        child [missing] {}
-        child [missing] {};
-
-    \end{tikzpicture}
-    \caption{Struttura progetto}
-\end{figure}
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+\begin{tikzpicture}[%
+  grow via three points={one child at (0.5,-0.68) and
+  two children at (0.5,-0.71) and (0.5,-1.45)},
+  edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  \node {/}
+    child { node {core/}
+        child{ node {ImageToStringClassifier.py}}
+        child{ node {ImageToStringPostprocessing.py}}
+        child{ node {ImageToStringPreprocessing.py}}
+    }
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child { node {dataset/}
+        child { node {dataset.ipynb}}
+    }
+    child [missing] {}
+    child { node {demo/}
+        child { node {demo.py}}
+    }
+    child [missing] {}
+    child { node {src/}
+        child { node {evaluation\_english\_words.ipynb}}
+        child { node {evaluation\_random\_words.ipynb}}
+        child { node {ImageToStringNet.py}}
+        child { node {main.ipynb}}
+    }
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {};
+\end{tikzpicture}
 
 \section{Core}
 La cartella \emph{core} contiene il codice delle tre classi dedicate a preprocessing, classificazione e postprocessing. Ciascun file definisce una classe omonima.

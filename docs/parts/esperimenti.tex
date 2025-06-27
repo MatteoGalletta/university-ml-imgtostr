@@ -98,24 +98,24 @@ La valutazione sui singoli caratteri si articolano in diverse analisi:
 \end{itemize}
 
 \subsubsection*{Analisi score}
-Per le migliori run di ciascun esperimento, oltre all'\textbf{accuracy} sono state calcolate anche le metriche di \textbf{precision}, \textbf{recall} e \textbf{F1-score}.
+Per le migliori run di ciascun esperimento sono state calcolate le metriche di \textbf{accuracy} e \textbf{loss}.
 
 \begin{table}[H]
 \centering
 \begin{tabular}{c|c|c|c|c}
-\textbf{Esperimento} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
+\textbf{Esperimento} & \textbf{Accuracy} & \textbf{Loss} \\
 \hline
-1 & 0.85 & 0.82 & 0.80 & 0.81 \\
-2 & 0.86 & 0.83 & 0.82 & 0.82 \\
-3 & 0.88 & 0.85 & 0.84 & 0.84 \\
-4 & 0.89 & 0.86 & 0.85 & 0.85 \\
-5 & \textbf{0.91} & \textbf{0.89} & \textbf{0.88} & \textbf{0.88} \\
+1 & 0.80 & 1.80 \\
+2 & 0.78 & 1.50 \\
+3 & 0.79 & 2.07 \\
+... & ... & ... \\
+7 & \textbf{0.82} & \textbf{1.23} \\
 \end{tabular}
-\caption{Metriche di valutazione sui cinque esperimenti.}
+\caption{Metriche di valutazione sugli esperimenti.}
 \label{tab:score_analysis}
 \end{table}
 
-Dall'analisi della tabella si può osservare come l'esperimento 5 abbia ottenuto le migliori prestazioni su tutte le metriche considerate.
+Dall'analisi della tabella si può osservare come l'esperimento 7 abbia ottenuto le migliori prestazioni.
 
 \subsubsection*{Curve Precision-Recall}
 \label{sec:pr_curves}
@@ -255,8 +255,8 @@ Di seguito si riportano le principali statistiche estratte.
         \toprule
         Dataset                 & Min   & Max   & Mean  & Std   \\
         \midrule
-        Stringhe casuali       & 0  & 41 & 5.42  & 22.04 \\
-        Stringhe inglesi & 0  & 2195 & 57.22  & 27521.79 \\
+        Stringhe casuali       & 0  & 40 & 5.43  & 23.09 \\
+        Stringhe inglesi & 0  & 2212 & 54.646  & 27467.36 \\
         \bottomrule
     \end{tabular}
     \caption{Statistiche distanza di edit}
@@ -319,8 +319,8 @@ La tabella seguente riporta i valori di string accuracy per ciascuna casistica, 
         \toprule
         Dataset & CS & CI & CSNS & CINS & CINS* \\
         \midrule
-        Stringhe casuali & 2.87 & 3.60 & 35.00 & 47.80 & 53.00 \\
-        Stringhe inglesi & 3.93 & 9.13 & 13.33 & 34.27 & 39.47 \\
+        Stringhe casuali & 2.4 & 3.60 & 43.80 & 47.00 & ?? \\
+        Stringhe inglesi & 6.47 & 9.93 & 11.93 & 18.80 & ?? \\
         \bottomrule
     \end{tabular}
     \caption{Risultati string accuracy}
