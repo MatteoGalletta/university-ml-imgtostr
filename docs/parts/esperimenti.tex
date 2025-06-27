@@ -319,8 +319,8 @@ La tabella seguente riporta i valori di string accuracy per ciascuna casistica, 
         \toprule
         Dataset & CS & CI & CSNS & CINS & CINS* \\
         \midrule
-        Stringhe casuali & 2.4 & 3.60 & 43.80 & 47.00 & ?? \\
-        Stringhe inglesi & 6.47 & 9.93 & 11.93 & 18.80 & ?? \\
+        Stringhe casuali & 2.40 & 3.60 & 32.2 & 43.80 & 48.60 \\
+        Stringhe inglesi & 6.47 & 9.93 & 7.67 & 11.93 & 24.00 \\
         \bottomrule
     \end{tabular}
     \caption{Risultati string accuracy}
@@ -329,4 +329,4 @@ La tabella seguente riporta i valori di string accuracy per ciascuna casistica, 
 
 Gran parte degli errori riscontrati deriva dalle euristiche utilizzate nel post-processing, in particolare quelle legate alla generazione degli spazi tra le parole.  
 Inoltre, per capire l'impatto delle lettere visivamente simili, come lo zero rispetto alla lettera “O” o la “I” rispetto alla “L”, abbiamo definito una versione estesa della metrica CINS, indicata come \textbf{CINS*}, che considera corretti anche queste confusioni.  
-Come si osserva nella Tabella~\ref{tab:string_accuracy_stats}, l'inclusione di questi casi comporta un ulteriore miglioramento della string accuracy, particolarmente evidente nel caso delle stringhe casuali.
+Come si osserva nella Tabella~\ref{tab:string_accuracy_stats}, l'inclusione di questi casi comporta un ulteriore miglioramento della string accuracy.
